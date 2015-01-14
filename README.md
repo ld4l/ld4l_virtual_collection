@@ -1,6 +1,6 @@
-# VirtualCollectionUI
+# Ld4lVirtualCollection
 
-Rails Engine LD4L Virtual Collection UI provides a user interface for creating and manipulating Virtual Collections.
+Rails Engine LD4L Virtual Collection provides a user interface for creating and manipulating Virtual Collections.
 
 
 ## Installation
@@ -9,8 +9,8 @@ Temporary get the gem from github until the gem is released publicly.
 
 Add this line to your application's Gemfile:
 
-<!--    gem 'virtual_collection_ui' -->
-    gem 'virtual_collection_ui', '~> 0.0.1', :git => 'git@github.com:ld4l/virtual_collection_ui.git'
+<!--    gem 'ld4l_virtual_collection' -->
+    gem 'ld4l_virtual_collection', '~> 0.0.1', :git => 'git@github.com:elrayle/ld4l_virtual_collection.git'
     
 
 And then execute:
@@ -20,7 +20,7 @@ And then execute:
 <!--
 Or install it yourself as:
 
-    $ gem install virtual_collection_ui
+    $ gem install ld4l_virtual_collection
 -->
 
 
