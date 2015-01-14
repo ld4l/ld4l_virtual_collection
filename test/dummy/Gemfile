@@ -1,0 +1,4 @@
+source 'https://rubygems.org'
+
+gem 'sqlite3'
+gem 'virtual_collection_ui', :path => "/Users/elr37/Documents/__DEVELOPMENT__/__RAILS/virtual_collection_ui"
