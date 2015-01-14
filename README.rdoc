@@ -1,3 +1,0 @@
-= Ld4lVirtualCollection
-
-This project rocks and uses MIT-LICENSE.
