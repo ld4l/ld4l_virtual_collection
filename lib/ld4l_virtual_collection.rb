@@ -1,3 +1,9 @@
+require 'rdf'
+require 'active_triples'
+require 'active_triples/local_name'
+require	'linkeddata'
+require 'ld4l/foaf_rdf'
+require 'ld4l/ore_rdf'
 require "ld4l_virtual_collection/engine"
 
 module Ld4lVirtualCollection

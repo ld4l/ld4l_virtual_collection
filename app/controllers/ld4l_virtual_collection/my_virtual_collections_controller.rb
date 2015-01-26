@@ -26,7 +26,8 @@ module Ld4lVirtualCollection
     def create
       @my_virtual_collection = MyVirtualCollection.new(my_virtual_collection_params)
 
-      if @my_virtual_collection.save
+      if LD4L::OreRDF::PersistAggregation.call(@my_virtual_collection)[:aggregation_resource_persisted]
+      # if @my_virtual_collection.save
         redirect_to @my_virtual_collection, notice: 'My virtual collection was successfully created.'
       else
         render :new
@@ -35,7 +36,11 @@ module Ld4lVirtualCollection
 
     # PATCH/PUT /my_virtual_collections/1
     def update
-      if @my_virtual_collection.update(my_virtual_collection_params)
+      @my_virtual_collection = MyVirtualCollection.update(@my_virtual_collection,my_virtual_collection_params)
+
+      # TODO -- should update check that proxies persisted as well???
+      if LD4L::OreRDF::PersistAggregation.call(@my_virtual_collection)[:aggregation_resource_persisted]
+      # if @my_virtual_collection.update(my_virtual_collection_params)
         redirect_to @my_virtual_collection, notice: 'My virtual collection was successfully updated.'
       else
         render :edit
@@ -44,8 +49,9 @@ module Ld4lVirtualCollection
 
     # DELETE /my_virtual_collections/1
     def destroy
-      @my_virtual_collection.destroy
-      redirect_to my_virtual_collections_url, notice: 'My virtual collection was successfully destroyed.'
+      # TODO -- need to implement destroy in ORE Gem
+      # @my_virtual_collection.destroy
+      # redirect_to my_virtual_collections_url, notice: 'My virtual collection was successfully destroyed.'
     end
 
     private

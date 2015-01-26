@@ -1,4 +1,19 @@
 source 'https://rubygems.org'
 
 gem 'sqlite3'
-gem 'virtual_collection_ui', :path => "/Users/elr37/Documents/__DEVELOPMENT__/__RAILS/virtual_collection_ui"
+gem 'ld4l_virtual_collection', :path => "/Users/elr37/Documents/__DEVELOPMENT__/__RAILS/ld4l_virtual_collection"
+
+gem 'rdf', '~> 1.1'
+gem 'active-triples', '~> 0.5'
+gem 'active_triples-local_name', '~> 0.1'
+gem 'ld4l-foaf_rdf', '~> 0.0'
+gem 'doubly_linked_list', '~> 0.0'
+gem 'ld4l-ore_rdf', :git => 'git@github.com:ld4l/ore_rdf.git', :branch => 'rework_with_service_objects'
+
+group :development do
+  # setup sqlite3 as the persistance triplestore for ActiveTriples
+  gem 'sqlite3'
+  gem 'rdf-do'
+  gem 'do_sqlite3'
+  gem 'pry'
+end
