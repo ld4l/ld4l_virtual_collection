@@ -1,0 +1,26 @@
+<%= form_tag( :action => 'update', :id => @collection ) do %>
+    <% if @collection.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@collection.errors.count, "error") %> prohibited this collection from being saved:</h2>
+
+          <ul>
+            <% @collection.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= label_tag('title', "Title") %>
+      <%= text_field "collection", "title", "size" => 20 %>
+    </div>
+    <div class="field">
+      <%= label_tag('description', "Description") %>
+      <%= text_area "collection", "description", "cols" => 20, "rows" => 8 %>
+    </div>
+
+    <div class="actions">
+      <%= submit_tag("Save") %>
+    </div>
+<% end %>
