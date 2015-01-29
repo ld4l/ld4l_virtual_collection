@@ -1,5 +1,12 @@
 require_dependency "ld4l_virtual_collection/application_controller"
 
+
+# TODO This code implies that @collection is an instance of the Collection model, but it is actually an instance of
+#      LD4L::OreRDF::Aggregation.  Should the Collection model be updated to hold the instance of LD4L::OreRDF::Aggregation
+#      and have the methods updated to redirect to the Aggregation model?  OR should Collection inherit from
+#      LD4L::OreRDF::Aggregation and get the methods that way?  That seems the cleaner way to go.
+
+
 module Ld4lVirtualCollection
   class CollectionsController < ApplicationController
     before_action :set_collection, only: [:show, :edit, :update, :destroy]
@@ -15,47 +22,56 @@ module Ld4lVirtualCollection
 
     # GET /collections/new
     def new
+      # puts("*** Entering CTRL: new")
       @collection = Collection.new
     end
 
     # GET /collections/1/edit
     def edit
+      # puts("*** Entering CTRL: edit")
     end
 
     # POST /collections
     def create
+      # puts("*** Entering CTRL: create")
       @collection = Collection.new(collection_params)
-
-      if LD4L::OreRDF::PersistAggregation.call(@collection)[:aggregation_resource_persisted]
-        redirect_to @collection, notice: 'Collection was successfully created.'
+      if LD4L::OreRDF::PersistAggregation.call(@collection) == true
+        redirect_to collection_path(@collection.id.to_s), notice: 'Collection was successfully created.'
       else
+        # TODO How to add error message about what failed to persist???
         render :new
       end
     end
 
     # PATCH/PUT /collections/1
     def update
-      @collection = Collection.update(@collection,collection_params)
-
+      # puts("*** Entering CTRL: update")
+      @collection = Collection.update(collection_params)
       # TODO -- should update check that proxies persisted as well???
-      if LD4L::OreRDF::PersistAggregation.call(@collection.update(collection_params))[:aggregation_resource_persisted]
-        redirect_to @collection, notice: 'Collection was successfully updated.'
+      if LD4L::OreRDF::PersistAggregation.call(@collection) == true
+        redirect_to collection_path(@collection.id.to_s), notice: 'Collection was successfully updated.'
       else
+        # TODO How to add error message about what failed to persist???
         render :edit
       end
     end
 
     # DELETE /collections/1
     def destroy
-      @collection.destroy
-      redirect_to collections_url, notice: 'Collection was successfully destroyed.'
+      # TODO -- need to implement destroy in ORE Gem
+      if LD4L::OreRDF::DestroyAggregation.call(@collection) == true
+        redirect_to collections_url, notice: 'Collection was successfully destroyed.'
+      else
+        # TODO Should it redirect to edit???  OR list???  OR  where???
+        # TODO How to add error message about what failed to persist???
+        render :edit
+      end
     end
 
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_collection
-        # TODO -- need to implement destroy in ORE Gem
-      @collection = Collection.find(params[:id])
+        @collection = Collection.find(params[:id])
       end
 
       # Only allow a trusted parameter "white list" through.

@@ -1,4 +1,4 @@
-<%= form_tag( :action => 'update', :id => @collection ) do %>
+<%= form_tag( {action: form_action}, method: form_method, id: form_id, class: form_class ) do %>
     <% if @collection.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@collection.errors.count, "error") %> prohibited this collection from being saved:</h2>
@@ -11,13 +11,15 @@
         </div>
     <% end %>
 
+    <%= hidden_field( "collection", "id" ) %>
+
     <div class="field">
-      <%= label_tag('title', "Title") %>
-      <%= text_field "collection", "title", "size" => 20 %>
+      <%= label_tag("collection_title", "Title") %>
+      <%= text_field "collection", "title", "size" => 20, "value" => @collection.title %>
     </div>
     <div class="field">
-      <%= label_tag('description', "Description") %>
-      <%= text_area "collection", "description", "cols" => 20, "rows" => 8 %>
+      <%= label_tag("collection_description", "Description") %>
+      <%= text_area "collection", "description", "cols" => 80, "rows" => 8, "value" => @collection.description %>
     </div>
 
     <div class="actions">

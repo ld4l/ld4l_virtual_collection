@@ -1,4 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_collection_path(@collection) %> |
+<p>
+  <strong>Title:</strong>
+  <%= @collection.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @collection.description %>
+</p>
+
+<%= link_to 'Edit', edit_collection_path(@collection.id.to_s) %> |
 <%= link_to 'Back', collections_path %>

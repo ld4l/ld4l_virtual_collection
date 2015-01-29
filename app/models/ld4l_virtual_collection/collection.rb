@@ -9,24 +9,29 @@ module Ld4lVirtualCollection
     end
 
     def self.new(*params)
+      # puts("*** Entering MODEL: new")
       aggregation = LD4L::OreRDF::CreateAggregation.call
-      aggregation.title       = params.title       if params && params.size > 0 && params[0].has_key?('title')
-      aggregation.description = params.description if params && params.size > 0 && params[0].has_key?('description')
+      aggregation.title       = params[0][:title]       if params && params.size > 0 && params[0].has_key?('title')
+      aggregation.description = params[0][:description] if params && params.size > 0 && params[0].has_key?('description')
       aggregation
     end
 
-    def self.update(aggregation, params)
-      aggregation.title       = params.title       if params.has_key?('title')
-      aggregation.description = params.description if params.has_key?('description')
+    def self.update(*params)
+      # puts("*** Entering MODEL: update")
+      aggregation = LD4L::OreRDF::ResumeAggregation.call(params[0][:id])
+      aggregation.title       = params[0][:title]       if params && params.size > 0 && params[0].has_key?('title')
+      aggregation.description = params[0][:description] if params && params.size > 0 && params[0].has_key?('description')
       aggregation
     end
 
     def self.destroy
+      # puts("*** Entering MODEL: destroy")
 
     end
 
     def self.find(uri)
-      LD4L::OreRDF::ResumeAggregations.call(uri)
+      # puts("*** Entering MODEL: find")
+      LD4L::OreRDF::ResumeAggregation.call(uri)
     end
 
   end

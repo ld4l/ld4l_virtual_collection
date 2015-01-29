@@ -1,6 +1,13 @@
 <h1>Editing collection</h1>
 
-<%= render 'form' %>
+<%=
+    render :partial =>'form',
+           :locals => {
+              :form_action => 'update',
+              :form_class  => 'edit_collection',
+              :form_id     => "edit_collection_#{@collection.id}",
+              :form_method => 'patch' }
+%>
 
-<%= link_to 'Show', @collection %> |
+<%= link_to 'Show', collection_path(@collection.id.to_s) %>
 <%= link_to 'Back', collections_path %>
