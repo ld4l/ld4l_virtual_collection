@@ -9,7 +9,6 @@ gem 'active_triples-local_name', '~> 0.1'
 gem 'ld4l-foaf_rdf', '~> 0.0'
 gem 'doubly_linked_list', '~> 0.0'
 gem 'ld4l-ore_rdf', :git => 'git@github.com:ld4l/ore_rdf.git', :branch => 'rework_with_service_objects'
-# gem 'ld4l-ore_rdf', :path => '/Users/elr37/Documents/__DEVELOPMENT__/__RAILS/__GEMS/ld4l-ore_rdf'
 
 group :development do
   # setup sqlite3 as the persistance triplestore for ActiveTriples
