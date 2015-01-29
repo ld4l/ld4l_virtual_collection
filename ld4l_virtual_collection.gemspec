@@ -28,6 +28,12 @@ Gem::Specification.new do |s|
   s.add_dependency('ld4l-foaf_rdf', '~> 0.0')
   s.add_dependency('doubly_linked_list', '~> 0.0')
 
+
+  s.add_dependency "jquery-rails", "~> 3.0.1"
+
+  # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+  s.add_dependency 'turbolinks'
+
   s.add_development_dependency('pry')
   # s.add_development_dependency('pry-byebug')    # Works with ruby > 2
   # s.add_development_dependency('pry-debugger')  # Works with ruby < 2

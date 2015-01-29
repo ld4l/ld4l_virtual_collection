@@ -5,6 +5,8 @@ require	'linkeddata'
 require 'ld4l/foaf_rdf'
 require 'ld4l/ore_rdf'
 require "ld4l_virtual_collection/engine"
+require 'jquery-rails'
+require 'turbolinks'
 
 module Ld4lVirtualCollection
   class Engine < ::Rails::Engine
