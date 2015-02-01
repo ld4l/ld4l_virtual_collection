@@ -1,0 +1,14 @@
+<%= render 'collection_info' %>
+
+<h1>Edit item</h1>
+
+<%=
+    render :partial =>'form',
+           :locals => {
+                   :form_action => 'update',
+                   :form_class  => 'edit_item',
+                   :form_id     => "edit_item_#{@item.id}",
+                   :form_method => 'patch' }
+%>
+
+<%= link_to 'Back', collection_path(@collection.id) %>

@@ -1,0 +1,14 @@
+<%= render 'collection_info' %>
+
+<h1>New item</h1>
+
+<%=
+    render :partial =>'form',
+           :locals => {
+                   :form_action => 'create',
+                   :form_class  => 'new_item',
+                   :form_id     => 'new_item',
+                   :form_method => 'post' }
+%>
+
+<%= link_to 'Back', collection_path(@collection.id) %>

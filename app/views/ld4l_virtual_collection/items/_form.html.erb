@@ -1,0 +1,25 @@
+<%= form_tag( {action: form_action}, method: form_method, id: form_id, class: form_class ) do %>
+    <% if @item.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+          <ul>
+            <% @item.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= hidden_field( "collection", "id" ) %>
+    <%= hidden_field( "item", "id" ) %>
+
+    <div class="field">
+      <%= label_tag("item_proxy_for", "Item URI") %>
+      <%= text_field "item", "proxy_for", "size" => 80, "value" => @proxy_for %>
+    </div>
+
+    <div class="actions">
+      <%= submit_tag("Save") %>
+    </div>
+<% end %>
