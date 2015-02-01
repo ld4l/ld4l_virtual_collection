@@ -1,0 +1,40 @@
+  <div class="span3">
+    <div id="collections">
+      <div class="my_collections">
+        <h4 class="twiddle">My Virtual Collections <i class="fa fa-plus-circle"></i></h4>
+        <% if !@collections %>
+            <i>No collections. Click <i class="fa fa-plus-circle"></i> to create a new collection.</i>
+        <% else %>
+        <table>
+          <tbody>
+          <% @collections.each do |id,collection| %>
+              <tr
+              <% if (@select_id == id.to_s) %>
+              class="selected"
+              <% end %>
+              ><td><%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s) %></td></tr>
+          <% end %>
+          </tbody>
+        </table>
+        <% end %>
+      </div>
+      <div class="watched_collections">
+        <h4 class="twiddle">Watched Collections <i class="fa fa-plus-circle"></i></h4>
+        <% if !@watched %>
+            <i>No watched collections. Click <i class="fa fa-plus-circle"></i> to find collections to watch.</i>
+        <% else %>
+        <table>
+          <tbody>
+          <% @watched.each do |id,collection| %>
+              <tr
+              <% if (@select_id == id.to_s) %>
+              class="selected"
+              <% end %>
+              ><td><%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s) %></td></tr>
+          <% end %>
+          </tbody>
+        </table>
+        <% end %>
+      </div>
+    </div>
+  </div>

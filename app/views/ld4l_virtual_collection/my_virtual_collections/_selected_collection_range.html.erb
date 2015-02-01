@@ -1,0 +1,78 @@
+    <div class="results-info span9">
+      <span class="results-count">
+        « Previous |
+        <strong><%= @first_idx %></strong>
+        -
+        <strong><%= @last_idx %></strong>
+        of
+        <strong><%= @num_items %></strong>
+        |
+        <a rel="next" href="/?page=2&q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&utf8=%E2%9C%93">Next »</a>
+      </span>
+      <div id="sort-dropdown" class="dropdown pull-right hidden-phone">
+        <ul class="css-dropdown">
+          <li class="btn">
+            <a href="#">Sort by relevance</a>
+            <span class="caret"></span>
+            <ul>
+              <li>
+                <a href="/?q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&sort=score+desc%2C+pub_date_sort+desc%2C+title_sort+asc&utf8=%E2%9C%93">relevance</a>
+              </li>
+              <li>
+                <a href="/?q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&sort=pub_date_sort+desc%2C+title_sort+asc&utf8=%E2%9C%93">year descending</a>
+              </li>
+              <li>
+                <a href="/?q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&sort=pub_date_sort+asc%2C+title_sort+asc&utf8=%E2%9C%93">year ascending</a>
+              </li>
+              <li>
+                <a href="/?q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&sort=author_sort+asc%2C+title_sort+asc&utf8=%E2%9C%93">author A-Z</a>
+              </li>
+              <li>
+                <a href="/?q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&sort=author_sort+desc%2C+title_sort+asc&utf8=%E2%9C%93">author Z-A</a>
+              </li>
+              <li>
+                <a href="/?q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&sort=title_sort+asc%2C+pub_date_sort+desc&utf8=%E2%9C%93">title A-Z</a>
+              </li>
+              <li>
+                <a href="/?q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&sort=title_sort+desc%2C+pub_date_sort+desc&utf8=%E2%9C%93">title Z-A</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div id="per_page-dropdown" class="dropdown pull-right hidden-phone">
+        <span class="hide-text">Number of results to display per page</span>
+        <ul class="css-dropdown">
+          <li class="btn">
+            <a href="#">20 per page</a>
+            <span class="caret"></span>
+            <ul>
+              <li>
+                <a href="/?per_page=10&q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&utf8=%E2%9C%93">
+                  10
+                  <span class="hide-text"> per page</span>
+                </a>
+              </li>
+              <li>
+                <a href="/?per_page=20&q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&utf8=%E2%9C%93">
+                  20
+                  <span class="hide-text"> per page</span>
+                </a>
+              </li>
+              <li>
+                <a href="/?per_page=50&q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&utf8=%E2%9C%93">
+                  50
+                  <span class="hide-text"> per page</span>
+                </a>
+              </li>
+              <li>
+                <a href="/?per_page=100&q=to+kill+a+mockingbird&results_view=true&search_field=all_fields&utf8=%E2%9C%93">
+                  100
+                  <span class="hide-text"> per page</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
