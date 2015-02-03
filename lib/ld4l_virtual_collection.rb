@@ -11,7 +11,7 @@ require 'turbolinks'
 module Ld4lVirtualCollection
   class Engine < ::Rails::Engine
 
-    engine_name 'ld4l_virtual_collection'
+    isolate_namespace Ld4lVirtualCollection
 
     # -----------------------------------------
     #  Default configurations

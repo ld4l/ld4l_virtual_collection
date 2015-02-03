@@ -12,16 +12,7 @@
         </div>
         <div class="document-data">
           <div class="remove-item">
-            <form class="remove_item form-inline" method="post" data-doc-id="<%= proxy_for %>" action="/remove_item/<%= proxy_for %>" accept-charset="UTF-8">
-              <div style="display:none">
-                <input type="hidden" value="✓" name="utf8">
-                <input type="hidden" value="put" name="_method">
-                <input type="hidden" value="IqMWF9mW7gzeU76u/gZU7qeaZ5yxvfVUqybUtcNXHwU=" name="authenticity_token">
-              </div>
-              <label class="remove_item button" for="remove_item_<%= proxy_for %>" title="">
-                <input id="remove_item_<%= proxy_for %>" class="remove_item_button" type="submit" value="Remove">
-              </label>
-            </form>
+            <%= link_to 'Remove', collection_item_path(@collection.id,item.id), method: :delete, data: { confirm: 'Are you sure?' } %>
           </div>
           <h2 class="blacklight-title_display">
             <%= count %>.
