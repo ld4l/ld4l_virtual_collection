@@ -29,7 +29,12 @@ Gem::Specification.new do |s|
   s.add_dependency('doubly_linked_list', '~> 0.0')
 
 
-  s.add_dependency "jquery-rails", "~> 2.1.4"
+  s.add_dependency "jquery-rails", "~> 2.1"
+  s.add_dependency "bootstrap-sass", "~> 3.0"
+  # s.add_dependency 'sass-rails', '>= 3.2'
+  s.add_dependency 'font-awesome-rails'
+
+
 
   # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
   s.add_dependency 'turbolinks'

@@ -7,6 +7,8 @@ require 'ld4l/ore_rdf'
 require "ld4l_virtual_collection/engine"
 require 'jquery-rails'
 require 'turbolinks'
+require 'bootstrap-sass'
+
 
 module Ld4lVirtualCollection
   class Engine < ::Rails::Engine

@@ -1,18 +1,32 @@
+<% todo_id = 3 %>
   <div class="span3">
     <div id="collections">
       <div class="my_collections">
-        <h4 class="twiddle">My Virtual Collections <i class="fa fa-plus-circle"></i></h4>
-        <% if !@collections %>
+        <h4 class="twiddle">My Virtual Collections</h4>
+        <!-- Button trigger modal -->
+        <%= link_to 'New', new_collection_modal_path,  {:remote => true,
+                                                             'data-toggle' =>  "modal",
+                                                             'data-target' => '#new-collection-modal'}  %>
+
+        <% if !@collections || @collections.size <= 0 %>
             <i>No collections. Click <i class="fa fa-plus-circle"></i> to create a new collection.</i>
         <% else %>
         <table>
           <tbody>
           <% @collections.each do |id,collection| %>
               <tr
-              <% if (@select_id == id.to_s) %>
-              class="selected"
-              <% end %>
-              ><td><%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s) %></td></tr>
+                <% if (@select_id == id.to_s) %>
+                  class="selected"
+                <% end %>
+              >
+                <td><%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s), :title => collection[:description] %></td>
+                <td>
+                  <%= link_to 'Edit', edit_collection_modal_path(id.to_s),  {:remote => true,
+                                                                    'data-toggle' =>  "modal",
+                                                                    'data-target' => '#edit-collection-modal'}  %>
+                </td>
+                <td><%= link_to 'Destroy', my_virtual_collection_path(id.to_s), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
           <% end %>
           </tbody>
         </table>

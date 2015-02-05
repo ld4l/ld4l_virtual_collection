@@ -11,28 +11,82 @@ require_dependency "ld4l_virtual_collection/application_controller"
 module Ld4lVirtualCollection
   class MyVirtualCollectionsController < ApplicationController
     before_action :set_collections
-    before_action :set_collection_and_items, only: [:show, :edit, :update, :destroy]
+    before_action :set_collection_and_items, only: [:show, :edit, :update, :destroy, :edit_collection_modal]
 
-    # GET /collections
+    # GET /my_virtual_collections
     def index
+      @collection = Collection.new
     end
 
-    # GET /collections/1
+    # GET /my_virtual_collections/1
     def show
+      puts("*** Entering CTRL: show virtual collection")
     end
 
-    # # GET /collections/new
-    # def new
-    #   puts("*** Entering CTRL: new collection")
-    #   @collection = Collection.new
-    # end
-    #
-    # # GET /collections/1/edit
+    # GET /my_virtual_collections/new_collection_modal
+    def new_collection_modal
+      puts("*** Entering CTRL: new virtual collection")
+      @collection = Collection.new
+      respond_to do |format|
+        format.html
+        format.js
+      end
+    end
+
+    # POST /my_virtual_collections
+    def create
+      puts("*** Entering CTRL: create virtual collection")
+      @collection = Collection.new(my_virtual_collection_params)
+      if LD4L::OreRDF::PersistAggregation.call(@collection) == true
+        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Collection was successfully created.'
+      else
+        # TODO How to add error message about what failed to persist???
+        render :new
+      end
+    end
+
+    # GET /my_virtual_collections/edit_collection_modal/1
+    def edit_collection_modal
+      puts("*** Entering CTRL: edit virtual collection")
+      respond_to do |format|
+        format.html
+        format.js
+      end
+    end
+
+
+    # PATCH/PUT /my_virtual_collections/1
+    def update
+      puts("*** Entering CTRL: update virtual collection")
+      @collection = Collection.update(my_virtual_collection_params)
+      # TODO -- should update check that proxies persisted as well???
+      if LD4L::OreRDF::PersistAggregation.call(@collection) == true
+        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Collection was successfully updated.'
+      else
+        # TODO How to add error message about what failed to persist???
+        render :edit
+      end
+    end
+
+    # DELETE /collections/1
+    def destroy
+      puts("*** Entering CTRL: destroy virtual collection")
+      if LD4L::OreRDF::DestroyAggregation.call(@collection) == true
+        redirect_to action: "index", notice: 'Collection was successfully destroyed.'
+      else
+        # TODO Should it redirect to edit???  OR list???  OR  where???
+        # TODO How to add error message about what failed to be destroyed???
+        render :edit
+      end
+    end
+
+
+    # # GET /my_virtual_collections/1/edit
     # def edit
     #   # puts("*** Entering CTRL: edit")
     # end
     #
-    # # POST /collections
+    # # POST /my_virtual_collections
     # def create
     #   puts("*** Entering CTRL: create collection")
     #   @collection = Collection.new(collection_params)
@@ -44,7 +98,7 @@ module Ld4lVirtualCollection
     #   end
     # end
     #
-    # # PATCH/PUT /collections/1
+    # # PATCH/PUT /my_virtual_collections/1
     # def update
     #   puts("*** Entering CTRL: update collection")
     #   @collection = Collection.update(collection_params)
@@ -57,7 +111,7 @@ module Ld4lVirtualCollection
     #   end
     # end
     #
-    # # DELETE /collections/1
+    # # DELETE /my_virtual_collections/1
     # def destroy
     #   puts("*** Entering CTRL: destroy collection")
     #   if LD4L::OreRDF::DestroyAggregation.call(@collection) == true
@@ -80,9 +134,9 @@ module Ld4lVirtualCollection
         @select_id  = params[:id]
         @collection = Collection.find(@select_id)
         @items      = @collection.proxy_resources if @collection
-        @first_idx  = 1
-        @last_idx   = @items.size <= 20 ? @items.size : 20
-        @num_items  = @items.size
+        @first_idx  = @items && @items.size > 0 ? 1 : 0
+        @last_idx   = @items && @items.size <= 20 ? @items.size : 20
+        @num_items  = @items ? @items.size : 0
       end
 
     # Only allow a trusted parameter "white list" through.

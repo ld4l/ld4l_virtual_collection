@@ -4,8 +4,11 @@
 
   <div class="span9 main-text">
     <%= render 'selected_collection_header' %>
-    <%= render 'selected_collection_range' %>
-    <%= render 'selected_collection_items' %>
+    <% if @items && @items.size > 0 %>
+        <%= render 'selected_collection_range' %>
+        <%= render 'selected_collection_items' %>
+    <% end %>
   </div>
 
+  <%= render 'modals' %>
 </div>

@@ -1,0 +1,18 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="edit-collection-label">Edit Collection</h3>
+    </div>
+    <div class="modal-body">
+      <%=
+          render :partial =>'form',
+                 :locals => {
+                         :form_action => 'update',
+                         :form_class  => 'edit_collection',
+                         :form_id     => 'edit_collection#{@collection.id}',
+                         :form_method => 'patch' }
+      %>
+    </div>
+  </div>
+</div>
