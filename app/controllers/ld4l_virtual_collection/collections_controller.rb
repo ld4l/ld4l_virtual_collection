@@ -18,11 +18,12 @@ module Ld4lVirtualCollection
 
     # GET /collections/1
     def show
+      # puts("*** Entering CTRL: show collection")
     end
 
     # GET /collections/new
     def new
-      # puts("*** Entering CTRL: new")
+      # puts("*** Entering CTRL: new collection")
       @collection = Collection.new
     end
 
@@ -33,7 +34,7 @@ module Ld4lVirtualCollection
 
     # POST /collections
     def create
-      # puts("*** Entering CTRL: create")
+      puts("*** Entering CTRL: create collection")
       @collection = Collection.new(collection_params)
       if LD4L::OreRDF::PersistAggregation.call(@collection) == true
         redirect_to collection_path(@collection.id.to_s), notice: 'Collection was successfully created.'
@@ -45,7 +46,7 @@ module Ld4lVirtualCollection
 
     # PATCH/PUT /collections/1
     def update
-      # puts("*** Entering CTRL: update")
+      # puts("*** Entering CTRL: update collection")
       @collection = Collection.update(collection_params)
       # TODO -- should update check that proxies persisted as well???
       if LD4L::OreRDF::PersistAggregation.call(@collection) == true
@@ -58,12 +59,12 @@ module Ld4lVirtualCollection
 
     # DELETE /collections/1
     def destroy
-      # TODO -- need to implement destroy in ORE Gem
+      # puts("*** Entering CTRL: destroy collection")
       if LD4L::OreRDF::DestroyAggregation.call(@collection) == true
         redirect_to collections_url, notice: 'Collection was successfully destroyed.'
       else
         # TODO Should it redirect to edit???  OR list???  OR  where???
-        # TODO How to add error message about what failed to persist???
+        # TODO How to add error message about what failed to be destroyed???
         render :edit
       end
     end
