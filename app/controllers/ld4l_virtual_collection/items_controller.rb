@@ -3,7 +3,7 @@ require_dependency "ld4l_virtual_collection/application_controller"
 module Ld4lVirtualCollection
   class ItemsController < ApplicationController
     before_action :set_collection
-    before_action :set_item, only: [:show, :edit, :update, :destroy]
+    before_action :set_item, only: [:show, :edit, :update, :destroy, :metadata_from_uri]
 
     # GET /collections/1/items
     def index
@@ -24,7 +24,6 @@ module Ld4lVirtualCollection
     # GET /items/1/edit
     def edit
       puts("*** Entering CTRL: edit item")
-      @proxy_for = @item.proxy_for.first.rdf_subject
     end
 
     # POST /collections/1/items
@@ -53,6 +52,12 @@ module Ld4lVirtualCollection
       end
     end
 
+    # GET /collections/1/items/1
+    def metadata_from_uri
+      puts("*** Entering CTRL: create_from_uri (item)")
+      LD4L::WorksRDF::GetMetadataFromURI(@proxy_for)
+    end
+
     # DELETE /collections/1/items/1
     def destroy
       puts("*** Entering CTRL: destroy item")
@@ -71,6 +76,7 @@ module Ld4lVirtualCollection
       # Use callbacks to share common setup or constraints between actions.
       def set_item
         @item = Item.find(params[:id])
+        @proxy_for = @item && @item.proxy_for && @item.proxy_for.first ? @item.proxy_for.first.rdf_subject : ""
       end
 
       # Only allow a trusted parameter "white list" through.

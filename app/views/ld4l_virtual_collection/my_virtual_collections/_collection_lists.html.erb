@@ -2,11 +2,10 @@
   <div class="span3">
     <div id="collections">
       <div class="my_collections">
-        <h4 class="twiddle">My Virtual Collections</h4>
-        <!-- Button trigger modal -->
-        <%= link_to 'New', new_collection_modal_path,  {:remote => true,
-                                                             'data-toggle' =>  "modal",
-                                                             'data-target' => '#new-collection-modal'}  %>
+        <h4 class="twiddle" style="width=250px;">My Virtual Collections
+          <%= link_to content_tag(:i, '', :class => "fa fa-plus-circle"), new_collection_modal_path,
+                      {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#new-collection-modal'}  %>
+        </h4>
 
         <% if !@collections || @collections.size <= 0 %>
             <i>No collections. Click <i class="fa fa-plus-circle"></i> to create a new collection.</i>
@@ -19,13 +18,11 @@
                   class="selected"
                 <% end %>
               >
-                <td><%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s), :title => collection[:description] %></td>
-                <td>
-                  <%= link_to 'Edit', edit_collection_modal_path(id.to_s),  {:remote => true,
-                                                                    'data-toggle' =>  "modal",
-                                                                    'data-target' => '#edit-collection-modal'}  %>
-                </td>
-                <td><%= link_to 'Destroy', my_virtual_collection_path(id.to_s), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <td width="200px"><%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s), :title => collection[:description] %></td>
+                <td style="padding-left: 10px;"><%= link_to content_tag(:i, '', :class => "fa fa-edit"), edit_collection_modal_path(id.to_s),
+                              {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#edit-collection-modal'}  %></td>
+                <td><%= link_to content_tag(:i, '', :class => "fa fa-minus-circle"), my_virtual_collection_path(id.to_s),
+                                method: :delete, data: { confirm: 'Are you sure?' } %></td>
               </tr>
           <% end %>
           </tbody>
@@ -33,7 +30,7 @@
         <% end %>
       </div>
       <div class="watched_collections">
-        <h4 class="twiddle">Watched Collections <i class="fa fa-plus-circle"></i></h4>
+        <h4 class="twiddle" style="padding-top: 50px;">Watched Collections <i class="fa fa-plus-circle"></i></h4>
         <% if !@watched %>
             <i>No watched collections. Click <i class="fa fa-plus-circle"></i> to find collections to watch.</i>
         <% else %>
