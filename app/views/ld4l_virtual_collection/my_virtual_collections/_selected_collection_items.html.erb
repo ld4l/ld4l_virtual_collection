@@ -1,45 +1,63 @@
     <div id="documents">
 
-<% count = @first_idx %>
-      <% @items.each do |item| %>
+<%
+ count = @first_idx
 
-      <% proxy_for = item.proxy_for.first.rdf_subject.to_s %>
+ @items.each do |item|
+   item_metadata = item[:metadata]
+   item_proxy    = item[:proxy]
 
-      <div class="document blacklight-book clearfix" data-bibid="3652730">
-        <div id="OCLC:" class="iconcover bookcover" data-oclc="">
+   if item_metadata.is_book?
+     doc_class = 'blacklight-book'
+     icon = 'fa fa-book'
+   elsif item_metadata.is_video?
+     doc_class = 'blacklight-video'
+     icon = 'fa fa-film'
+   elsif item_metadata.is_music?
+     doc_class = 'blacklight-musical-recording'
+     icon = 'fa fa-music'
+   else
+     doc_class = ''
+     icon = ''
+   end
+%>
+      <div class="document <%= doc_class %> clearfix" data-bibid="<%= item_metadata.local_id %>">
+        <div class="iconcover bookcover" id="OCLC:<%= item_metadata.oclc_id %>" data-oclc="<%= item_metadata.oclc_id %>">
           <img class="img-polaroid" src="/assets/cornell/layout/placeholder-item-a090c5301bffac37449f945ee8060d06.png" alt="">
-          <i class="fa fa-book"></i>
+          <i class="<%= icon %>"></i>
         </div>
         <div class="document-data">
           <div class="remove-item">
-            <%= link_to 'Remove', collection_item_path(@collection.id,item.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to 'Remove', collection_item_path(@collection.id,item_proxy.id), method: :delete, data: { confirm: 'Are you sure?' } %>
           </div>
           <h2 class="blacklight-title_display">
             <%= count %>.
-            <a href="<%= proxy_for %>" data-counter="6">To kill a mockingbird</a>
-            <span class="blacklight-pub_date_display">1999</span>
+            <a href="<%= @proxy_for %>" data-counter="6"><%= item_metadata.title %></a>
+            <span class="blacklight-pub_date_display"><%= item_metadata.pub_date %></span>
           </h2>
           <span class="blacklight-title_uniform_display"></span>
           <div class="data-block">
-            <span class="blacklight-author_display">Lee, Harper.</span>
+            <span class="blacklight-author_display"><%= item_metadata.author %></span>
             <span class="format">
-              <i class="fa fa-book"></i>
+              <i class="<%= icon %>"></i>
               Book
             </span>
-            <span class="blacklight-pub_info_display">New York : HarperCollinsPublishers, 1999.</span>
-            <span class="blacklight-language_display">English</span>
-            <span class="blacklight-edition_display">40th anniversary ed.</span>
+            <span class="blacklight-pub_info_display"><%= item_metadata.pub_info %></span>
+            <span class="blacklight-language_display"><%= item_metadata.language %></span>
+            <span class="blacklight-edition_display"><%= item_metadata.edition %></span>
           </div>
-          <div id="blacklight-avail-3652730" class="status">
+          <div id="blacklight-avail-<%= item_metadata.local_id %>" class="status">
             <i class="fa fa-clock-o" title="Available by request"></i>
-            <span class="location">Olin Library</span>
-            <span class="callnumber">PS3562.E353 T6x 1995</span>
+            <span class="location"><%= item_metadata.local_location %></span>
+            <span class="callnumber"><%= item_metadata.local_callnumber %></span>
           </div>
-          <abbr class="unapi-id" title="3652730"></abbr>
+          <abbr class="unapi-id" title="<%= item_metadata.local_id %>"></abbr>
         </div>
       </div>
 
-        <% count += 1 %>
-        <% break if count > 20 %>
-      <% end %>
+<%
+  count += 1
+  break if count > 20
+end
+%>
     </div>

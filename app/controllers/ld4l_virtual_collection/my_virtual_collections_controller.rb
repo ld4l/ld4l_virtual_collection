@@ -133,10 +133,40 @@ module Ld4lVirtualCollection
       def set_collection_and_items
         @select_id  = params[:id]
         @collection = Collection.find(@select_id)
-        @items      = @collection.proxy_resources if @collection
-        @first_idx  = @items && @items.size > 0 ? 1 : 0
-        @last_idx   = @items && @items.size <= 20 ? @items.size : 20
-        @num_items  = @items ? @items.size : 0
+        @items = []
+        if @collection
+# binding.pry
+          @collection.proxy_resources.each do |proxy|
+            uri = proxy.proxy_for.first.rdf_subject.to_s
+            parsable_uri = URI(uri)
+# binding.pry
+            if( parsable_uri.host == "localhost" || parsable_uri.host == "newcatalog.library.cornell.edu" )
+              item_metadata = LD4L::WorksRDF::WorkMetadata.new(nil)
+              # ids = [ uri ]
+              # @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, ids)
+binding.pry
+
+              path = MetadataCallback.metadata_path(:id => "4636067")+".json"
+
+              x = redirect_to path
+binding.pry
+
+              Ld4lVirtualCollection::Engine.configuration.metadata_callback.call( { uri => item_metadata } )
+              item_metadata.set_type_to_book
+              item_metadata.set_source_to_cornell_library
+              # item_metadata.title = 'TEST TITLE'
+              # item_metadata.author = 'TEST AUTHOR'
+            elsif
+              item_metadata = LD4L::WorksRDF::GetMetadataFromURI.call(proxy.proxy_for.first.rdf_subject.to_s)
+            end
+            @items << { :proxy => proxy, :metadata => item_metadata }
+            @proxy_for = uri
+          end
+        end
+        # TODO: Following 3 values are kludged for first page.  Need better method for calculating when multiple pages.
+        @first_idx  = @items.size > 0 ? 1 : 0
+        @last_idx   = @items.size <= 20 ? @items.size : 20
+        @num_items  = @items.size
       end
 
     # Only allow a trusted parameter "white list" through.
