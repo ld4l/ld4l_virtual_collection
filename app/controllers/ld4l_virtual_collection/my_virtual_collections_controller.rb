@@ -144,12 +144,12 @@ module Ld4lVirtualCollection
               item_metadata = LD4L::WorksRDF::WorkMetadata.new(nil)
               # ids = [ uri ]
               # @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, ids)
-binding.pry
+# binding.pry
 
               path = MetadataCallback.metadata_path(:id => "4636067")+".json"
 
               x = redirect_to path
-binding.pry
+# binding.pry
 
               Ld4lVirtualCollection::Engine.configuration.metadata_callback.call( { uri => item_metadata } )
               item_metadata.set_type_to_book
