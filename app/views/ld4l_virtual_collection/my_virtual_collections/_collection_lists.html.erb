@@ -1,51 +1,72 @@
-<% todo_id = 3 %>
   <div class="span3">
     <div id="collections">
       <div class="my_collections">
-        <h4 class="twiddle" style="width=250px;">My Virtual Collections
+        <h4 class="twiddle" style="width: 250px;">My Virtual Collections
           <%= link_to content_tag(:i, '', :class => "fa fa-plus-circle"), new_collection_modal_path,
                       {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#new-collection-modal'}  %>
         </h4>
 
-        <% if !@collections || @collections.size <= 0 %>
-            <i>No collections. Click <i class="fa fa-plus-circle"></i> to create a new collection.</i>
-        <% else %>
-        <table>
-          <tbody>
-          <% @collections.each do |id,collection| %>
-              <tr
-                <% if (@select_id == id.to_s) %>
-                  class="selected"
-                <% end %>
-              >
-                <td width="200px"><%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s), :title => collection[:description] %></td>
-                <td style="padding-left: 10px;"><%= link_to content_tag(:i, '', :class => "fa fa-edit"), edit_collection_modal_path(id.to_s),
-                              {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#edit-collection-modal'}  %></td>
-                <td><%= link_to content_tag(:i, '', :class => "fa fa-minus-circle"), my_virtual_collection_path(id.to_s),
-                                method: :delete, data: { confirm: 'Are you sure?' } %></td>
-              </tr>
-          <% end %>
-          </tbody>
-        </table>
-        <% end %>
+        <%- if !@collections || @collections.size <= 0 %>
+            <p class="add-message">No collections. Click <i class="fa fa-plus-circle"></i> to create a new collection.</p>
+        <%- else %>
+            <div class="side-menu">
+              <ul class="collections-list">
+                <%- @collections.each do |id,collection| %>
+                <li<%- if @select_id == id.to_s %> class="selected-collection"
+                  <%- end %>>
+                  <div class="title">
+                    <%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s),
+                              :title => collection[:description], :class => "title"%>
+                  </div>
+                  <div class="icons">
+                    <%= link_to content_tag(:i, '', :class => "fa fa-edit"), edit_collection_modal_path(id.to_s),
+                              {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#edit-collection-modal' }  %>
+                    <%= link_to content_tag(:i, '', :class => "fa fa-minus-circle"), collection_path(id.to_s),
+                                method: :delete, data: { confirm: 'Are you sure?' } %>
+                  </div>
+                </li>
+                <%- end %>
+              </ul>
+            </div><!--/.collections-list -->
+        <%- end %>
       </div>
       <div class="watched_collections">
         <h4 class="twiddle" style="padding-top: 50px;">Watched Collections <i class="fa fa-plus-circle"></i></h4>
-        <% if !@watched %>
-            <i>No watched collections. Click <i class="fa fa-plus-circle"></i> to find collections to watch.</i>
-        <% else %>
+        <%- if !@watched %>
+            <p class="add-message">No watched collections. Click <i class="fa fa-plus-circle"></i> to find collections to watch.</p>
+        <%- else %>
+            <div class="side-menu">
+              <ul class="collections-list">
+                <%- @watched.each do |id,collection| %>
+                    <li<%- if @select_id == id.to_s %> class="selected-collection"
+                       <%- end %>>
+                      <div class="title">
+                        <%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s),
+                                    :title => collection[:description], :class => "title"%>
+                      </div>
+                      <div class="icons">
+                        <i class="fa fa-info-sign" />
+                        <i class="fa fa-minus-circle" />
+                      </div>
+                    </li>
+                <%- end %>
+              </ul>
+            </div><!--/.collections-list -->
+
+
+
         <table>
           <tbody>
-          <% @watched.each do |id,collection| %>
+          <%- @watched.each do |id,collection| %>
               <tr
-              <% if (@select_id == id.to_s) %>
+              <%- if (@select_id == id.to_s) %>
               class="selected"
-              <% end %>
+              <%- end %>
               ><td><%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s) %></td></tr>
-          <% end %>
+          <%- end %>
           </tbody>
         </table>
-        <% end %>
+        <%- end %>
       </div>
     </div>
   </div>

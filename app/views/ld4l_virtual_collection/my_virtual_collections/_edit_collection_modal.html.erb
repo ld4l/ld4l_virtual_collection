@@ -6,8 +6,9 @@
     </div>
     <div class="modal-body">
       <%=
-          render :partial =>'form',
+          render :partial => 'form_collection',
                  :locals => {
+                         :form_controller => 'collections',
                          :form_action => 'update',
                          :form_class  => 'edit_collection',
                          :form_id     => 'edit_collection#{@collection.id}',

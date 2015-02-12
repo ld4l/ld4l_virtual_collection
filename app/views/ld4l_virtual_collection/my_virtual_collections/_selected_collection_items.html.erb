@@ -4,8 +4,9 @@
  count = @first_idx
 
  @items.each do |item|
-   item_metadata = item[:metadata]
-   item_proxy    = item[:proxy]
+   item_metadata       = item[:metadata]
+   item_proxy_resource = item[:proxy]
+   item_proxy_for      = item[:proxy_for]
 
    if item_metadata.is_book?
      doc_class = 'blacklight-book'
@@ -28,11 +29,11 @@
         </div>
         <div class="document-data">
           <div class="remove-item">
-            <%= link_to 'Remove', collection_item_path(@collection.id,item_proxy.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to 'Remove', collection_item_path(@collection.id,item_proxy_resource.id), method: :delete, data: { confirm: 'Are you sure?' } %>
           </div>
           <h2 class="blacklight-title_display">
             <%= count %>.
-            <a href="<%= @proxy_for %>" data-counter="6"><%= item_metadata.title %></a>
+            <a href="<%= item_proxy_for %>" data-counter="6"><%= item_metadata.title %></a>
             <span class="blacklight-pub_date_display"><%= item_metadata.pub_date %></span>
           </h2>
           <span class="blacklight-title_uniform_display"></span>

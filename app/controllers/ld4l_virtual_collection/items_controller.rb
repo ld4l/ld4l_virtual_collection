@@ -16,24 +16,24 @@ module Ld4lVirtualCollection
 
     # GET /collections/1/items/new
     def new
-      puts("*** Entering CTRL: new item")
+      # puts("*** Entering CTRL: new item")
       @item = Item.new(@collection)
       @proxy_for = ""
     end
 
     # GET /items/1/edit
     def edit
-      puts("*** Entering CTRL: edit item")
+      # puts("*** Entering CTRL: edit item")
     end
 
     # POST /collections/1/items
     def create
-      puts("*** Entering CTRL: create item")
+      # puts("*** Entering CTRL: create item")
       @item = Item.new(@collection, item_params)
 
       # TODO How to save only affected items & collection instead of all items & collection???
       if LD4L::OreRDF::PersistAggregation.call(@collection) == true
-        redirect_to collection_path(@collection.id.to_s), notice: 'Item was successfully created.'
+        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Item was successfully created.'
       else
         # TODO How to add error message about what failed to persist???
         render :new
@@ -42,11 +42,11 @@ module Ld4lVirtualCollection
 
     # PATCH/PUT /collections/1/items/1
     def update
-      puts("*** Entering CTRL: update item")
+      # puts("*** Entering CTRL: update item")
       @item = Item.update(@collection, @item, item_params)
       # TODO How to save only affected items & collection instead of all items & collection???
       if LD4L::OreRDF::PersistAggregation.call(@collection) == true
-        redirect_to collection_path(@collection.id.to_s), notice: 'Item was successfully updated.'
+        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Item was successfully updated.'
       else
         render :edit
       end
@@ -54,17 +54,17 @@ module Ld4lVirtualCollection
 
     # GET /collections/1/items/1
     def metadata_from_uri
-      puts("*** Entering CTRL: create_from_uri (item)")
+      # puts("*** Entering CTRL: create_from_uri (item)")
       LD4L::WorksRDF::GetMetadataFromURI(@proxy_for)
     end
 
     # DELETE /collections/1/items/1
     def destroy
-      puts("*** Entering CTRL: destroy item")
+      # puts("*** Entering CTRL: destroy item")
       # TODO -- need to implement destroy in ORE Gem -- Destroying just the item leaves the aggregates triples
       @item.destroy   ## TODO REMOVE THIS LINE WHEN DestroyProxy IS IMPLEMENTED
       # if LD4L::OreRDF::DestroyProxy.call(@collection,@item.rdf_subject) == true
-      redirect_to collection_path(@collection.id.to_s), notice: 'Item was successfully removed.'
+      redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Item was successfully removed.'
       # else
       #   # TODO Should it redirect to edit???  OR list???  OR  where???
       #   # TODO How to add error message about what failed to be destroyed???

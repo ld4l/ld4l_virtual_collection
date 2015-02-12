@@ -34,10 +34,10 @@ module Ld4lVirtualCollection
 
     # POST /collections
     def create
-      puts("*** Entering CTRL: create collection")
+      # puts("*** Entering CTRL: create collection")
       @collection = Collection.new(collection_params)
       if LD4L::OreRDF::PersistAggregation.call(@collection) == true
-        redirect_to collection_path(@collection.id.to_s), notice: 'Collection was successfully created.'
+        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Collection was successfully created.'
       else
         # TODO How to add error message about what failed to persist???
         render :new
@@ -50,7 +50,7 @@ module Ld4lVirtualCollection
       @collection = Collection.update(collection_params)
       # TODO -- should update check that proxies persisted as well???
       if LD4L::OreRDF::PersistAggregation.call(@collection) == true
-        redirect_to collection_path(@collection.id.to_s), notice: 'Collection was successfully updated.'
+        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Collection was successfully updated.'
       else
         # TODO How to add error message about what failed to persist???
         render :edit
@@ -61,7 +61,7 @@ module Ld4lVirtualCollection
     def destroy
       # puts("*** Entering CTRL: destroy collection")
       if LD4L::OreRDF::DestroyAggregation.call(@collection) == true
-        redirect_to collections_url, notice: 'Collection was successfully destroyed.'
+        redirect_to my_virtual_collections_path, notice: 'Collection was successfully destroyed.'
       else
         # TODO Should it redirect to edit???  OR list???  OR  where???
         # TODO How to add error message about what failed to be destroyed???

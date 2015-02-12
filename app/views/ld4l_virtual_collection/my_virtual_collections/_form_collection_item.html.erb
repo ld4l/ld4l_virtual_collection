@@ -1,33 +1,26 @@
-<%= form_tag( {action: form_action}, method: form_method, id: form_id, class: form_class ) do %>
-    <% if @collection.errors.any? %>
+<%= form_tag( {controller: form_controller, action: form_action, collection_id: @collection.id}, method: form_method, id: form_id, class: form_class ) do %>
+    <% if @item.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(@collection.errors.count, "error") %> prohibited this collection from being saved:</h2>
+          <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
 
           <ul>
-            <% @collection.errors.full_messages.each do |message| %>
+            <% @item.errors.full_messages.each do |message| %>
                 <li><%= message %></li>
             <% end %>
           </ul>
         </div>
     <% end %>
 
-    <%= hidden_field( "collection", "id" ) %>
+    <%= hidden_field( :collection, :id ) %>
+    <%= hidden_field( :item, :id ) %>
 
     <div class="field">
-      <%= label_tag("collection_title", "Title") %>
-      <%= text_field "collection", "title", "size" => 20, "value" => @collection.title %>
-    </div>
-    <div class="field">
-      <%= label_tag("collection_description", "Description") %>
-      <%= text_area "collection", "description", "cols" => 80, "rows" => 8, "value" => @collection.description %>
+      <%= label_tag("item_proxy_for", "Item URI") %>
+      <%= text_field "item", "proxy_for", "size" => 80, "value" => @proxy_for %>
     </div>
 
     <div class="modal-footer">
       <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
       <button class="btn btn-primary" type="submit">Save changes</button>
-    </div>
-
-    <div class="actions">
-      <%= submit_tag("Save") %>
     </div>
 <% end %>

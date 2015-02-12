@@ -2,15 +2,16 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="new-collection-label">New Collection</h3>
+      <h3 id="new-collection-item-label">New Collection</h3>
     </div>
     <div class="modal-body">
       <%=
-          render :partial =>'form',
+          render :partial => 'form_collection_item',
                  :locals => {
+                         :form_controller => 'items',
                          :form_action => 'create',
-                         :form_class  => 'new_collection',
-                         :form_id     => 'new_collection',
+                         :form_class  => 'new_item',
+                         :form_id     => 'new_item',
                          :form_method => 'post' }
       %>
     </div>

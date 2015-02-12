@@ -1,4 +1,3 @@
-require 'pry'
 require_dependency "ld4l_virtual_collection/application_controller"
 
 
@@ -11,7 +10,8 @@ require_dependency "ld4l_virtual_collection/application_controller"
 module Ld4lVirtualCollection
   class MyVirtualCollectionsController < ApplicationController
     before_action :set_collections
-    before_action :set_collection_and_items, only: [:show, :edit, :update, :destroy, :edit_collection_modal]
+    before_action :set_collection, only: [:edit, :update, :destroy, :edit_collection_modal, :new_collection_item_modal]
+    before_action :set_collection_and_items, only: [:show]
 
     # GET /my_virtual_collections
     def index
@@ -20,12 +20,12 @@ module Ld4lVirtualCollection
 
     # GET /my_virtual_collections/1
     def show
-      puts("*** Entering CTRL: show virtual collection")
+      # puts("*** Entering CTRL: show virtual collection")
     end
 
     # GET /my_virtual_collections/new_collection_modal
     def new_collection_modal
-      puts("*** Entering CTRL: new virtual collection")
+      # puts("*** Entering CTRL: new virtual collection")
       @collection = Collection.new
       respond_to do |format|
         format.html
@@ -33,21 +33,9 @@ module Ld4lVirtualCollection
       end
     end
 
-    # POST /my_virtual_collections
-    def create
-      puts("*** Entering CTRL: create virtual collection")
-      @collection = Collection.new(my_virtual_collection_params)
-      if LD4L::OreRDF::PersistAggregation.call(@collection) == true
-        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Collection was successfully created.'
-      else
-        # TODO How to add error message about what failed to persist???
-        render :new
-      end
-    end
-
     # GET /my_virtual_collections/edit_collection_modal/1
     def edit_collection_modal
-      puts("*** Entering CTRL: edit virtual collection")
+      # puts("*** Entering CTRL: edit virtual collection")
       respond_to do |format|
         format.html
         format.js
@@ -55,28 +43,14 @@ module Ld4lVirtualCollection
     end
 
 
-    # PATCH/PUT /my_virtual_collections/1
-    def update
-      puts("*** Entering CTRL: update virtual collection")
-      @collection = Collection.update(my_virtual_collection_params)
-      # TODO -- should update check that proxies persisted as well???
-      if LD4L::OreRDF::PersistAggregation.call(@collection) == true
-        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Collection was successfully updated.'
-      else
-        # TODO How to add error message about what failed to persist???
-        render :edit
-      end
-    end
-
-    # DELETE /collections/1
-    def destroy
-      puts("*** Entering CTRL: destroy virtual collection")
-      if LD4L::OreRDF::DestroyAggregation.call(@collection) == true
-        redirect_to action: "index", notice: 'Collection was successfully destroyed.'
-      else
-        # TODO Should it redirect to edit???  OR list???  OR  where???
-        # TODO How to add error message about what failed to be destroyed???
-        render :edit
+    # GET /my_virtual_collections/new_collection_item_modal/1
+    def new_collection_item_modal
+      # puts("*** Entering CTRL: new virtual collection item")
+      @item = Item.new(@collection)
+      @proxy_for = ""
+      respond_to do |format|
+        format.html
+        format.js
       end
     end
 
@@ -130,26 +104,27 @@ module Ld4lVirtualCollection
         # @watched = Watched.all
       end
 
+      def set_collection
+        @select_id  = params[:id]
+        @collection = Collection.find(@select_id)
+      end
+
       def set_collection_and_items
         @select_id  = params[:id]
         @collection = Collection.find(@select_id)
         @items = []
         if @collection
-# binding.pry
           @collection.proxy_resources.each do |proxy|
             uri = proxy.proxy_for.first.rdf_subject.to_s
             parsable_uri = URI(uri)
-# binding.pry
             if( parsable_uri.host == "localhost" || parsable_uri.host == "newcatalog.library.cornell.edu" )
+              # Handle internal (e.g. Cornell catalog) URLs
               item_metadata = LD4L::WorksRDF::WorkMetadata.new(nil)
-              # ids = [ uri ]
-              # @response, @document_list = get_solr_response_for_field_values(SolrDocument.unique_key, ids)
-# binding.pry
 
+### TODO Hardcoded a known good id for testing
               path = MetadataCallback.metadata_path(:id => "4636067")+".json"
 
-              x = redirect_to path
-# binding.pry
+              x = redirect_to path  ## TODO Not sure what I was testing with the redirect.  Maybe this is why it gets called twice???
 
               Ld4lVirtualCollection::Engine.configuration.metadata_callback.call( { uri => item_metadata } )
               item_metadata.set_type_to_book
@@ -157,10 +132,15 @@ module Ld4lVirtualCollection
               # item_metadata.title = 'TEST TITLE'
               # item_metadata.author = 'TEST AUTHOR'
             elsif
+              # Handle external URIs
               item_metadata = LD4L::WorksRDF::GetMetadataFromURI.call(proxy.proxy_for.first.rdf_subject.to_s)
             end
-            @items << { :proxy => proxy, :metadata => item_metadata }
-            @proxy_for = uri
+            @items << { :proxy => proxy, :metadata => item_metadata, :proxy_for => uri }
+
+
+### TODO Look for all usage of proxy_for and make sure correct.  Cause it isn't correct here.
+
+            # @proxy_for = uri  ### TODO This isn't correct as the proxy gets reset with every loop.  How is it being used?  Should get proxy from @items.
           end
         end
         # TODO: Following 3 values are kludged for first page.  Need better method for calculating when multiple pages.
