@@ -18,7 +18,7 @@ module Ld4lVirtualCollection
 
     def self.default_metadata_callback
       # by setting to nil, it will use the default minter in the minter gem
-      @default_metadata_callback = nil
+      @default_metadata_callback = {}
     end
     private_class_method :default_metadata_callback
 
@@ -46,6 +46,14 @@ module Ld4lVirtualCollection
 
     def metadata_callback=(metadata_callback)
       @metadata_callback = metadata_callback
+    end
+
+    def register_metadata_callback(host,callback)
+      @metadata_callback[host] = callback
+    end
+
+    def find_metadata_callback(host)
+      @metadata_callback[host]
     end
 
     def reset_metadata_callback

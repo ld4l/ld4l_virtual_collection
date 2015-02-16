@@ -8,11 +8,11 @@ module Ld4lVirtualCollection
     end
 
     def self.configuration
-      @configuration ||= Configuration.new
+      @configuration ||= Ld4lVirtualCollection::Configuration.new
     end
 
     def self.reset
-      @configuration = Configuration.new
+      @configuration = Ld4lVirtualCollection::Configuration.new
     end
 
     def self.configure

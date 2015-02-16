@@ -11,7 +11,8 @@ module Ld4lVirtualCollection
 
     def self.new(collection, *params)
       # puts("*** Entering MODEL: new item")
-      item_uri = params[0][:proxy_for]       if params && params.size > 0 && params[0].has_key?('proxy_for')
+# binding.pry
+      item_uri = params[0][:proxy_for].strip    if params && params.size > 0 && params[0].has_key?('proxy_for')
       item_uri ? LD4L::OreRDF::AddAggregatedResource.call( collection, item_uri ) :
                  LD4L::OreRDF::ProxyResource.new
     end

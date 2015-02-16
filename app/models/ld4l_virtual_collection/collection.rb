@@ -34,5 +34,15 @@ module Ld4lVirtualCollection
       LD4L::OreRDF::ResumeAggregation.call(uri)
     end
 
+    def self.collections_for_droplist
+      full_collections = Collection.all
+      collections = []
+      full_collections.each do |id,collection|
+        collections << { :title => collection[:title].to_s, :id => id.to_s }
+      end
+# binding.pry
+      collections
+    end
+
   end
 end

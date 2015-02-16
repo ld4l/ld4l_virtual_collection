@@ -5,6 +5,7 @@ require	'linkeddata'
 require 'ld4l/foaf_rdf'
 require 'ld4l/ore_rdf'
 require "ld4l_virtual_collection/engine"
+require 'ld4l_virtual_collection/configuration'
 require 'jquery-rails'
 require 'turbolinks'
 require 'bootstrap-sass'

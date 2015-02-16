@@ -47,12 +47,17 @@
             <span class="blacklight-language_display"><%= item_metadata.language %></span>
             <span class="blacklight-edition_display"><%= item_metadata.edition %></span>
           </div>
+          <div class="data-block">
+            <span class="blacklight-source_display">Source: <%= item_metadata.source %></span>
+          </div>
+          <%- if item_metadata.local_id && item_metadata.local_id.size > 0 %>
           <div id="blacklight-avail-<%= item_metadata.local_id %>" class="status">
             <i class="fa fa-clock-o" title="Available by request"></i>
             <span class="location"><%= item_metadata.local_location %></span>
             <span class="callnumber"><%= item_metadata.local_callnumber %></span>
           </div>
           <abbr class="unapi-id" title="<%= item_metadata.local_id %>"></abbr>
+          <%- end %>
         </div>
       </div>
 
