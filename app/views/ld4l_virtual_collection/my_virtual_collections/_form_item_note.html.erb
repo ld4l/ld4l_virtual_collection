@@ -1,0 +1,30 @@
+<%= form_tag( note_path(@note.id), method: form_method, id: form_id, class: form_class ) do %>
+
+    <% if @note.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(note.errors.count, "error") %> prohibited this note from being saved:</h2>
+
+          <ul>
+            <% @note.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <% old_value = @note.getComment %>
+    <%= hidden_field( :note, :old_value,     :value => old_value ) %>
+    <%= hidden_field( :note, :collection_id, :value => collection_id ) %>
+    <%= hidden_field( :note, :item_id,       :value => item_id ) %>
+
+    <div class="field">
+      <%= text_area "note", "new_value", "rows" => 5, "value" => old_value %>
+    </div>
+
+    <div class="modal-footer">
+      <a data-toggle="collapse" href="#<%=note_div%>" aria-expanded="false" aria-controls="<%=note_div%>">
+        Cancel
+      </a>
+      <button class="link_style_button" type="submit">Save changes</button>
+    </div>
+<% end %>

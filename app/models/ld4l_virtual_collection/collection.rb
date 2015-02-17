@@ -40,7 +40,6 @@ module Ld4lVirtualCollection
       full_collections.each do |id,collection|
         collections << { :title => collection[:title].to_s, :id => id.to_s }
       end
-# binding.pry
       collections
     end
 

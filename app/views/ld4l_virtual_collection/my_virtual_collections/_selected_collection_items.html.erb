@@ -7,6 +7,7 @@
    item_metadata       = item[:metadata]
    item_proxy_resource = item[:proxy]
    item_proxy_for      = item[:proxy_for]
+   item_note           = item[:note]
 
    if item_metadata.is_book?
      doc_class = 'blacklight-book'
@@ -51,12 +52,38 @@
             <span class="blacklight-source_display">Source: <%= item_metadata.source %></span>
           </div>
           <%- if item_metadata.local_id && item_metadata.local_id.size > 0 %>
-          <div id="blacklight-avail-<%= item_metadata.local_id %>" class="status">
-            <i class="fa fa-clock-o" title="Available by request"></i>
-            <span class="location"><%= item_metadata.local_location %></span>
-            <span class="callnumber"><%= item_metadata.local_callnumber %></span>
+<%-
+#          <div id="blacklight-avail-<%= item_metadata.local_id % >" class="status">
+#            <i class="fa fa-clock-o" title="Available by request"></i>
+#            <span class="location"><%= item_metadata.local_location % ></span>
+#            <span class="callnumber"><%= item_metadata.local_callnumber % ></span>
+#          </div>
+#          <abbr class="unapi-id" title="<%= item_metadata.local_id % >"></abbr>
+%>
+
+          <div class="item-notes">
+            <a data-toggle="collapse" href="#collapse_<%=count%>" aria-expanded="false" aria-controls="collapse_<%=count%>">
+              Show/Hide Notes
+            </a>
+            <div class="collapse" id="collapse_<%=count%>">
+              <div class="well">
+                <%=
+                    @note = item_note
+                    render :partial => 'form_item_note',
+                           :locals => {
+                                   :form_controller => 'notes',
+                                   :form_action     => 'update',
+                                   :form_class      => 'update_note',
+                                   :form_id         => 'update_note',
+                                   :form_method     => 'patch',
+                                   :note_div        => "collapse_#{count}",
+                                   :collection_id   => @collection.id,
+                                   :item_id         => item_proxy_resource.id }
+                %>
+              </div>
+            </div>
           </div>
-          <abbr class="unapi-id" title="<%= item_metadata.local_id %>"></abbr>
+
           <%- end %>
         </div>
       </div>

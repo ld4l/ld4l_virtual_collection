@@ -125,7 +125,11 @@ puts("****** Get metadata for virtual collection #{@collection.title}")
             parsable_uri = URI(uri)  if uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.find_metadata_callback(parsable_uri.host) if parsable_uri
             items_metadata = metadata_callback.call( [ uri ] )  if metadata_callback
-            @items << { :proxy => proxy, :metadata => items_metadata.first, :proxy_for => uri }  if items_metadata && items_metadata.size > 0
+            notes = Ld4lVirtualCollection::Note.all(@collection,proxy)
+            note = notes.first                                         if     notes && notes.size > 0
+            note = Ld4lVirtualCollection::Note.new(@collection,proxy)  unless notes && notes.size > 0
+
+            @items << { :proxy => proxy, :metadata => items_metadata.first, :proxy_for => uri, :note => note }  if items_metadata && items_metadata.size > 0
 
 ### TODO Look for all usage of proxy_for and make sure correct.  Cause it isn't correct here.
 
@@ -136,6 +140,7 @@ puts("****** Get metadata for virtual collection #{@collection.title}")
         @first_idx  = @items.size > 0 ? 1 : 0
         @last_idx   = @items.size <= 20 ? @items.size : 20
         @num_items  = @items.size
+        @note = nil
       end
 
     # Only allow a trusted parameter "white list" through.

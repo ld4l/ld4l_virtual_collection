@@ -4,6 +4,7 @@ require 'active_triples/local_name'
 require	'linkeddata'
 require 'ld4l/foaf_rdf'
 require 'ld4l/ore_rdf'
+require 'ld4l/open_annotation_rdf'
 require "ld4l_virtual_collection/engine"
 require 'ld4l_virtual_collection/configuration'
 require 'jquery-rails'
