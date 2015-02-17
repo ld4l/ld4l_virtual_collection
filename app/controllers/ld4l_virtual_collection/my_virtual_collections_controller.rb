@@ -119,6 +119,7 @@ module Ld4lVirtualCollection
         @collection = Collection.find(@select_id)
         @items = []
         if @collection
+puts("****** Get metadata for virtual collection #{@collection.title}")
           @collection.proxy_resources.each do |proxy|
             uri = proxy.proxy_for.first.rdf_subject.to_s  if proxy.proxy_for.first
             parsable_uri = URI(uri)  if uri

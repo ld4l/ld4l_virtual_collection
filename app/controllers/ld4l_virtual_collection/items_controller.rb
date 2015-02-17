@@ -81,7 +81,9 @@ module Ld4lVirtualCollection
 
       # Only allow a trusted parameter "white list" through.
       def item_params
-        params[:item]
+        white_list_params = params.permit(:proxy_for)                  unless params.has_key?(:item)
+        white_list_params = params.require(:item).permit(:proxy_for)   if params.has_key?(:item)
+        white_list_params
       end
 
       def set_collection
