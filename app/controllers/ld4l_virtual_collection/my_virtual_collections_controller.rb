@@ -101,7 +101,7 @@ module Ld4lVirtualCollection
       # Use callbacks to share common setup or constraints between actions.
       def set_collections
         @collections = Collection.all
-# binding.pry
+
         # TODO Sorting collections alphabetically...
         # TODO   * @collections is a hash, so it can't be sorted
         # TODO   * need to convert @collections from a hash to an array
@@ -120,34 +120,11 @@ module Ld4lVirtualCollection
         @items = []
         if @collection
           @collection.proxy_resources.each do |proxy|
-# binding.pry
             uri = proxy.proxy_for.first.rdf_subject.to_s  if proxy.proxy_for.first
             parsable_uri = URI(uri)  if uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.find_metadata_callback(parsable_uri.host) if parsable_uri
             items_metadata = metadata_callback.call( [ uri ] )  if metadata_callback
             @items << { :proxy => proxy, :metadata => items_metadata.first, :proxy_for => uri }  if items_metadata && items_metadata.size > 0
-
-
-#             if( parsable_uri.host == "localhost" || parsable_uri.host == "newcatalog.library.cornell.edu" )
-#               # Handle internal (e.g. Cornell catalog) URLs
-#               item_metadata = LD4L::WorksRDF::WorkMetadata.new(nil)
-#
-# ### TODO Hardcoded a known good id for testing
-#               path = MetadataCallback.metadata_path(:id => "4636067")+".json"
-#
-#               x = redirect_to path  ## TODO Not sure what I was testing with the redirect.  Maybe this is why it gets called twice???
-#
-#               Ld4lVirtualCollection::Engine.configuration.metadata_callback.call( { uri => item_metadata } )
-#               item_metadata.set_type_to_book
-#               item_metadata.set_source_to_cornell_library
-#               # item_metadata.title = 'TEST TITLE'
-#               # item_metadata.author = 'TEST AUTHOR'
-#             elsif
-#               # Handle external URIs
-#               item_metadata = LD4L::WorksRDF::GetMetadataFromURI.call(uri)
-#             end
-#             @items << { :proxy => proxy, :metadata => item_metadata, :proxy_for => uri }
-
 
 ### TODO Look for all usage of proxy_for and make sure correct.  Cause it isn't correct here.
 
