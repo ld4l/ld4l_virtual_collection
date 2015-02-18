@@ -6,6 +6,15 @@
                       {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#new-collection-modal'}  %>
         </h4>
 
+        <div id="loading_spinner" class="loading">
+          <div class="loading-overlay">
+            <p class="loading-spinner">
+              <%= image_tag "ld4l_virtual_collection/loading_spinner.gif", class: "loading-spinner-img", alt: "loading..." %>
+            </p>
+          </div>
+        </div>
+
+
         <%- if !@collections || @collections.size <= 0 %>
             <p class="add-message">No collections. Click <i class="fa fa-plus-circle"></i> to create a new collection.</p>
         <%- else %>
@@ -16,13 +25,15 @@
                   <%- end %>>
                   <div class="title">
                     <%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s),
-                              :title => collection[:description], :class => "title"%>
+                              :title => collection[:description], :class => "title",
+                              :onclick => "document.getElementById('loading_spinner').style.visibility = 'visible';"
+                    %>
                   </div>
                   <div class="icons">
                     <%= link_to content_tag(:i, '', :class => "fa fa-edit"), edit_collection_modal_path(id.to_s),
                               {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#edit-collection-modal' }  %>
                     <%= link_to content_tag(:i, '', :class => "fa fa-minus-circle"), collection_path(id.to_s),
-                                method: :delete, data: { confirm: 'Are you sure?' } %>
+                              method: :delete, data: { confirm: 'Are you sure?' } %>
                   </div>
                 </li>
                 <%- end %>

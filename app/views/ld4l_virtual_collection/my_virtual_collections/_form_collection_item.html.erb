@@ -11,6 +11,14 @@
         </div>
     <% end %>
 
+    <div id="loading_spinner" class="loading">
+      <div class="loading-overlay">
+        <p class="loading-spinner">
+          <%= image_tag "ld4l_virtual_collection/loading_spinner.gif", class: "loading-spinner-img", alt: "loading..." %>
+        </p>
+      </div>
+    </div>
+
     <%= hidden_field( :collection, :id ) %>
     <%= hidden_field( :item, :id ) %>
 
@@ -20,7 +28,22 @@
     </div>
 
     <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      <button class="btn btn-primary" type="submit">Save changes</button>
+      <button id="close-btn" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button id="submit-btn" class="btn btn-primary" type="submit">Save changes</button>
     </div>
 <% end %>
+
+<script>
+    $('#close-btn').on('click', function() {
+        document.getElementById("loading_spinner").style.visibility = "visible";
+        $("#<%= modal_id %>").addClass("vc-disable-modal");
+        $("#close-btn").prop("disabled",true);
+        $("#submit-btn").prop('disabled',true);
+    });
+    $('#submit-btn').on('click', function() {
+        document.getElementById("loading_spinner").style.visibility = "visible";
+        $("#<%= modal_id %>").addClass("vc-disable-modal");
+        $("#close-btn").prop("disabled",true);
+        $("#submit-btn").prop('disabled',true);
+    });
+</script>

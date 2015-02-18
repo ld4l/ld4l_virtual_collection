@@ -1,5 +1,11 @@
-    <div class="well clearfix">
+    <div class="well clearfix virtual-collection-header-title">
       <div class="row_fluid">
         <h2><%= @collection.title if @collection %></h2>
+        <div class="add-uri">
+          <%= link_to content_tag(:i, '', :class => "fa fa-plus-circle"), new_collection_item_modal_path(@collection.id.to_s),
+                      {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#new-collection-item-modal' }  %>
+          <%= link_to "Add External Resource", new_collection_item_modal_path(@collection.id.to_s),
+                      {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#new-collection-item-modal' }  %>
+        </div>
       </div>
     </div>
