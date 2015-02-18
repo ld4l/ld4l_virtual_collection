@@ -8,6 +8,8 @@
    item_proxy_resource = item[:proxy]
    item_proxy_for      = item[:proxy_for]
    item_note           = item[:note]
+   item_title          = item_metadata.title
+   item_title          = item_metadata.uri  unless item_title && item_title.size > 0
 
    if item_metadata.is_book?
      doc_class = 'blacklight-book'
@@ -34,7 +36,7 @@
           </div>
           <h2 class="blacklight-title_display">
             <%= count %>.
-            <a href="<%= item_proxy_for %>" data-counter="6"><%= item_metadata.title %></a>
+            <a href="<%= item_proxy_for %>" data-counter="6"><%= item_title %></a>
             <span class="blacklight-pub_date_display"><%= item_metadata.pub_date %></span>
           </h2>
           <span class="blacklight-title_uniform_display"></span>

@@ -124,6 +124,7 @@ puts("****** Get metadata for virtual collection #{@collection.title}")
             uri = proxy.proxy_for.first.rdf_subject.to_s  if proxy.proxy_for.first
             parsable_uri = URI(uri)  if uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.find_metadata_callback(parsable_uri.host) if parsable_uri
+            metadata_callback = Ld4lVirtualCollection::Engine.configuration.get_default_metadata_callback  unless metadata_callback
             items_metadata = metadata_callback.call( [ uri ] )  if metadata_callback
             notes = Ld4lVirtualCollection::Note.all(@collection,proxy)
             note = notes.first                                         if     notes && notes.size > 0

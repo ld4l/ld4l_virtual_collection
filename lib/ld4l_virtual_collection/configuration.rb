@@ -52,8 +52,16 @@ module Ld4lVirtualCollection
       @metadata_callback[host] = callback
     end
 
+    def register_default_metadata_callback(callback)
+      @metadata_callback[:DEFAULT] = callback
+    end
+
     def find_metadata_callback(host)
       @metadata_callback[host]
+    end
+
+    def get_default_metadata_callback
+      @metadata_callback[:DEFAULT]
     end
 
     def reset_metadata_callback

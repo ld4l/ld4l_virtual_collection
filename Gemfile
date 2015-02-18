@@ -8,6 +8,7 @@ gemspec
 # Use LDFL::OreRDF Gem
 gem 'ld4l-ore_rdf', :git => 'git@github.com:ld4l/ore_rdf.git', :branch => 'rework_with_service_objects'
 gem 'ld4l-works_rdf', :git => 'git@github.com:elrayle/works_rdf.git', :branch => 'master'
-# gem 'ld4l-works_rdf', :path => '/Users/elr37/Documents/__DEVELOPMENT__/__RAILS/__GEMS/ld4l-works_rdf'
+
+gem 'ld4l-open_annotation_rdf', :git => 'git@github.com:ld4l/open_annotation_rdf.git', :branch => 'master'
 
 gem 'font-awesome-rails'
