@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency('active-triples', '~> 0.5')
   s.add_dependency('active_triples-local_name', '~> 0.1')
   s.add_dependency('ld4l-foaf_rdf', '~> 0.0')
+  s.add_dependency('ld4l-open_annotation_rdf', '~> 0.0')
   s.add_dependency('doubly_linked_list', '~> 0.0')
 
 
