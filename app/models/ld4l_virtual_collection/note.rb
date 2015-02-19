@@ -15,7 +15,7 @@ module Ld4lVirtualCollection
     end
 
     def self.new(collection,item,*params)
-      puts("*** Entering MODEL: new note")
+      # puts("*** Entering MODEL: new note")
       item_uri = item.id
       item_uri = RDF::URI(item_uri)  unless item_uri.kind_of?(RDF::URI)
       note = LD4L::OpenAnnotationRDF::CommentAnnotation.new(ActiveTriples::LocalName::Minter.generate_local_name(
@@ -29,7 +29,7 @@ module Ld4lVirtualCollection
     end
 
     def self.update(note,*params)
-      puts("*** Entering MODEL: update note")
+      # puts("*** Entering MODEL: update note")
       item_uri = params.first[:item_id]
       item_uri = RDF::URI(item_uri)  unless item_uri.kind_of?(RDF::URI)
       note.hasTarget = item_uri
@@ -41,12 +41,12 @@ module Ld4lVirtualCollection
     end
 
     def self.destroy(note)
-      puts("*** Entering MODEL: destroy note")
+      # puts("*** Entering MODEL: destroy note")
 
     end
 
     def self.find(uri)
-      puts("*** Entering MODEL: find note")
+      # puts("*** Entering MODEL: find note")
       LD4L::OpenAnnotationRDF::CommentAnnotation.new(uri)
     end
 
