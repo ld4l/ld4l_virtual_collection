@@ -1,3 +1,4 @@
+<%- old_value = @note.getComment %>
 <%= form_tag( note_path(@note.id), method: form_method, id: form_id, class: form_class ) do %>
 
     <% if @note.errors.any? %>
@@ -12,19 +13,18 @@
         </div>
     <% end %>
 
-    <% old_value = @note.getComment %>
     <%= hidden_field( :note, :old_value,     :value => old_value ) %>
     <%= hidden_field( :note, :collection_id, :value => collection_id ) %>
     <%= hidden_field( :note, :item_id,       :value => item_id ) %>
 
     <div class="field">
-      <%= text_area "note", "new_value", "rows" => 5, "value" => old_value %>
+      <%= text_area "note", "new_value", "rows" => 5, :id => "note_text_#{count}", :value => old_value %>
     </div>
 
     <div class="modal-footer">
-      <a data-toggle="collapse" href="#<%=note_div%>" aria-expanded="false" aria-controls="<%=note_div%>">
-        Cancel
-      </a>
-      <button class="link_style_button" type="submit">Save changes</button>
+      <a id="close-btn_<%=count%>" data-toggle="collapse" href="#<%=note_div%>" aria-expanded="false" aria-controls="<%=note_div%>"
+          onclick="$('textarea#note_text_<%=count%>').val('<%=old_value%>');">Cancel</a>
+      <button id="submit-btn_<%=count%>" class="link_style_button" type="submit"
+          onclick="document.getElementById('cl_loading_spinner').style.visibility = 'visible';">Save changes</button>
     </div>
 <% end %>

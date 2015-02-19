@@ -6,7 +6,7 @@
                       {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#new-collection-modal'}  %>
         </h4>
 
-        <div id="loading_spinner" class="loading">
+        <div id="cl_loading_spinner" class="loading">
           <div class="loading-overlay">
             <p class="loading-spinner">
               <%= image_tag "ld4l_virtual_collection/loading_spinner.gif", class: "loading-spinner-img", alt: "loading..." %>
@@ -26,7 +26,7 @@
                   <div class="title">
                     <%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s),
                               :title => collection[:description], :class => "title",
-                              :onclick => "document.getElementById('loading_spinner').style.visibility = 'visible';"
+                              :onclick => "document.getElementById('cl_loading_spinner').style.visibility = 'visible';"
                     %>
                   </div>
                   <div class="icons">

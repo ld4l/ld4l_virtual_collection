@@ -36,11 +36,20 @@ module Ld4lVirtualCollection
     def create
       # puts("*** Entering CTRL: create collection")
       @collection = Collection.new(collection_params)
-      if LD4L::OreRDF::PersistAggregation.call(@collection) == true
-        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Collection was successfully created.'
+      persisted = false
+      error_msg = ''
+      begin
+        persisted = LD4L::OreRDF::PersistAggregation.call(@collection)
+      rescue ArgumentError
+        # TODO should check that error message from ArgumentError is that Title is missing.
+        error_msg = "Title is required."
+      end
+      if persisted == true
+        flash[:notice] = 'Collection was successfully created.'
+        redirect_to my_virtual_collection_path(@collection.id.to_s)
       else
-        # TODO How to add error message about what failed to persist???
-        render :new
+        flash[:error] = "Collection not created.  #{error_msg}"
+        redirect_to my_virtual_collections_path
       end
     end
 
@@ -48,12 +57,21 @@ module Ld4lVirtualCollection
     def update
       # puts("*** Entering CTRL: update collection")
       @collection = Collection.update(collection_params)
-      # TODO -- should update check that proxies persisted as well???
-      if LD4L::OreRDF::PersistAggregation.call(@collection) == true
-        redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Collection was successfully updated.'
+      persisted = false
+      error_msg = ''
+      begin
+        # TODO -- should update check that proxies persisted as well???
+        persisted = LD4L::OreRDF::PersistAggregation.call(@collection)
+      rescue ArgumentError
+        # TODO should check that error message from ArgumentError is that Title is missing.
+        error_msg = "Title is required."
+      end
+      if persisted == true
+        flash[:notice] = 'Collection was successfully updated.'
+        redirect_to my_virtual_collection_path(@collection.id.to_s)
       else
-        # TODO How to add error message about what failed to persist???
-        render :edit
+        flash[:error] = "Collection not updated.  #{error_msg}"
+        redirect_to my_virtual_collections_path
       end
     end
 

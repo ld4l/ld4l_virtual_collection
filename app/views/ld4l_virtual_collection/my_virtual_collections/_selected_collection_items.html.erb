@@ -65,7 +65,7 @@
 
           <div class="item-notes">
             <a data-toggle="collapse" href="#collapse_<%=count%>" aria-expanded="false" aria-controls="collapse_<%=count%>">
-              Show/Hide Notes
+              Show Notes
             </a>
             <div class="collapse" id="collapse_<%=count%>">
               <div class="well">
@@ -76,11 +76,12 @@
                                    :form_controller => 'notes',
                                    :form_action     => 'update',
                                    :form_class      => 'update_note',
-                                   :form_id         => 'update_note',
+                                   :form_id         => "update_note_#{count}",
                                    :form_method     => 'patch',
                                    :note_div        => "collapse_#{count}",
                                    :collection_id   => @collection.id,
-                                   :item_id         => item_proxy_resource.id }
+                                   :item_id         => item_proxy_resource.id,
+                                   :count           => count }
                 %>
               </div>
             </div>
