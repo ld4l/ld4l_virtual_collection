@@ -1,5 +1,3 @@
-require 'ld4l/ore_rdf'
-
 module Ld4lVirtualCollection
   class Note < ActiveRecord::Base
 

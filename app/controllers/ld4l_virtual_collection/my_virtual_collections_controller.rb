@@ -122,16 +122,22 @@ module Ld4lVirtualCollection
 puts("****** Get metadata for virtual collection #{@collection.title}")
           @collection.proxy_resources.each do |proxy|
             uri = proxy.proxy_for.first.rdf_subject.to_s  if proxy.proxy_for.first
+puts("   begin processing URI: #{uri}")
             parsable_uri = URI(uri)  if uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.find_metadata_callback(parsable_uri.host) if parsable_uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.get_default_metadata_callback  unless metadata_callback
             items_metadata = metadata_callback.call( [ uri ] )  if metadata_callback
+
             notes = Ld4lVirtualCollection::Note.all(@collection,proxy)
             note = notes.first                                         if     notes && notes.size > 0
             note = Ld4lVirtualCollection::Note.new(@collection,proxy)  unless notes && notes.size > 0
 
-            @items << { :proxy => proxy, :metadata => items_metadata.first, :proxy_for => uri, :note => note }  if items_metadata && items_metadata.size > 0
+            tag_values = Ld4lVirtualCollection::Tag.all_values(proxy)
+            tag = Ld4lVirtualCollection::Tag.new(@collection,proxy)
 
+            @items << { :proxy => proxy, :metadata => items_metadata.first, :proxy_for => uri, :note => note, :tag => tag, :tags => tag_values }  if items_metadata && items_metadata.size > 0
+
+puts("   processing complete - #{@items.size} items retrieved")
 ### TODO Look for all usage of proxy_for and make sure correct.  Cause it isn't correct here.
 
             # @proxy_for = uri  ### TODO This isn't correct as the proxy gets reset with every loop.  How is it being used?  Should get proxy from @items.

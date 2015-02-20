@@ -1,0 +1,29 @@
+<%= form_tag( item_tags_path(item_id), method: form_method, id: form_id, class: form_class ) do %>
+
+    <% if @tag.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
+
+          <ul>
+            <% @tag.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= hidden_field( :tag, :old_tags,     :value => tag_values ) %>
+    <%= hidden_field( :tag, :collection_id, :value => collection_id ) %>
+    <%= hidden_field( :tag, :item_id,       :value => item_id ) %>
+
+    <div class="field new_tag_field">
+      <%= label_tag("new_tags_#{count}", "Tags:") %>
+      <%= text_field "tag", "new_tags_#{count}", "size" => 80, "value" => tag_values %>
+    </div>
+    <p class="field_instructions">NOTE: Separate tags with semicolons.</p>
+    <div class="form-footer">
+      <a id="close-btn_<%=count%>"
+           onclick="$('textarea#note_text_<%=count%>').val('<%=old_value%>');">Reset</a>
+      <button id="addtag-btn_<%=count%>" class="link_style_button" type="submit"
+           onclick="document.getElementById('cl_loading_spinner').style.visibility = 'visible';">Set Tags</button>    </div>
+<% end %>

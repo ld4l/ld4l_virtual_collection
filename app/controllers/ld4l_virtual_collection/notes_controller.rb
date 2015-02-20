@@ -20,7 +20,7 @@ module Ld4lVirtualCollection
       @note = Note.new(@collection,@item)
     end
 
-    # GET collections/1/items/1/notes/1/edit
+    # GET /notes/1/edit
     def edit
       # puts("*** Entering CTRL: edit note")
     end

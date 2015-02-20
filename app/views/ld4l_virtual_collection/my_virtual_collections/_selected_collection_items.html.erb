@@ -8,6 +8,8 @@
    item_proxy_resource = item[:proxy]
    item_proxy_for      = item[:proxy_for]
    item_note           = item[:note]
+   item_tag            = item[:tag]
+   item_tags           = item[:tags]
    item_title          = item_metadata.title
    item_title          = item_metadata.uri  unless item_title && item_title.size > 0
 
@@ -63,31 +65,50 @@
 #          <abbr class="unapi-id" title="<%= item_metadata.local_id % >"></abbr>
 %>
 
-          <div class="item-notes">
+          <div class="item-notes-and-tags">
             <a data-toggle="collapse" href="#collapse_<%=count%>" aria-expanded="false" aria-controls="collapse_<%=count%>">
-              Show Notes
+              Show/Hide Notes and Tags
             </a>
             <div class="collapse" id="collapse_<%=count%>">
               <div class="well">
-                <%=
-                    @note = item_note
-                    render :partial => 'form_item_note',
-                           :locals => {
-                                   :form_controller => 'notes',
-                                   :form_action     => 'update',
-                                   :form_class      => 'update_note',
-                                   :form_id         => "update_note_#{count}",
-                                   :form_method     => 'patch',
-                                   :note_div        => "collapse_#{count}",
-                                   :collection_id   => @collection.id,
-                                   :item_id         => item_proxy_resource.id,
-                                   :count           => count }
-                %>
+                <div class="item-note">
+                  <%=
+                      @note = item_note
+                      render :partial => 'form_item_note',
+                             :locals => {
+                                     :form_controller => 'notes',
+                                     :form_action     => 'update',
+                                     :form_class      => 'update_note',
+                                     :form_id         => "update_note_#{count}",
+                                     :form_method     => 'patch',
+                                     :note_div        => "collapse_#{count}",
+                                     :collection_id   => @collection.id,
+                                     :item_id         => item_proxy_resource.id,
+                                     :count           => count }
+                  %>
+                </div>
+                <div class="item-tags">
+                  <%=
+                      @tag = item_tag
+                      render :partial => 'form_item_tag',
+                             :locals => {
+                                     :form_controller => 'tags',
+                                     :form_action     => 'manage_all',
+                                     :form_class      => 'manage_tags',
+                                     :form_id         => "manage_tags_#{count}",
+                                     :form_method     => 'patch',
+                                     :collection_id   => @collection.id,
+                                     :item_id         => item_proxy_resource.id,
+                                     :count           => count,
+                                     :tag_values      => item_tags }
+                  %>
+                </div>
               </div>
             </div>
           </div>
 
-          <%- end %>
+
+        <%- end %>
         </div>
       </div>
 
