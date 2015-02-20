@@ -18,12 +18,13 @@
 
     <div class="field new_tag_field">
       <%= label_tag("new_tags_#{count}", "Tags:") %>
-      <%= text_field "tag", "new_tags_#{count}", "size" => 80, "value" => tag_values %>
+      <%= text_field "tag", "new_tags", :id => "new_tags_#{count}", "size" => 80, "value" => tag_values %>
     </div>
     <p class="field_instructions">NOTE: Separate tags with semicolons.</p>
     <div class="form-footer">
-      <a id="close-btn_<%=count%>"
-           onclick="$('textarea#note_text_<%=count%>').val('<%=old_value%>');">Reset</a>
-      <button id="addtag-btn_<%=count%>" class="link_style_button" type="submit"
-           onclick="document.getElementById('cl_loading_spinner').style.visibility = 'visible';">Set Tags</button>    </div>
+      <button id="reset-tags-btn_<%=count%>" class="link_style_button" type="button"
+           onclick="$('#new_tags_<%=count%>').val('<%=tag_values%>');">Reset</button>
+      <button id="set-tags-btn_<%=count%>" class="link_style_button" type="submit"
+           onclick="document.getElementById('cl_loading_spinner').style.visibility = 'visible';">Set Tags</button>
+    </div>
 <% end %>
