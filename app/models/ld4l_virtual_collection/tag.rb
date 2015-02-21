@@ -2,12 +2,12 @@ module Ld4lVirtualCollection
   class Tag < ActiveRecord::Base
 
     def self.all(collection,item)
-puts("*** Entering MODEL: all tags")
+      # puts("*** Entering MODEL: all tags")
       self.all_hash(item).to_a
     end
 
     def self.all_hash(target)
-puts("*** Entering MODEL: all tags as hash")
+      # puts("*** Entering MODEL: all tags as hash")
       tags = {}
       target_uri = target.id
       all_annotations_uris = LD4L::OpenAnnotationRDF::Annotation.find_by_target(target_uri)
@@ -19,15 +19,14 @@ puts("*** Entering MODEL: all tags as hash")
     end
 
     def self.all_values(target)
-puts("*** Entering MODEL: values for all tags")
+      # puts("*** Entering MODEL: values for all tags")
       self.all_hash(target).keys.join("; ")
     end
 
     def self.update_all(target,*params)
-puts("*** Entering MODEL: update_all tags")
+      # puts("*** Entering MODEL: update_all tags")
       all_anno_hash = self.all_hash(target)
 
-      # puts("*** Entering MODEL: update_all tags")
       target_uri = target.id
       target_uri = RDF::URI(target_uri)  unless target_uri.kind_of?(RDF::URI)
 
@@ -56,7 +55,7 @@ puts("*** Entering MODEL: update_all tags")
     end
 
     def self.new(collection,item,*params)
-      puts("*** Entering MODEL: new tag")
+      # puts("*** Entering MODEL: new tag")
       item_uri = item.id
       item_uri = RDF::URI(item_uri)  unless item_uri.kind_of?(RDF::URI)
       tag = LD4L::OpenAnnotationRDF::TagAnnotation.new(ActiveTriples::LocalName::Minter.generate_local_name(
@@ -71,7 +70,7 @@ puts("*** Entering MODEL: update_all tags")
 
 
     def self.update(tag,*params)
-      puts("*** Entering MODEL: update tag")
+      # puts("*** Entering MODEL: update tag")
       item_uri = params.first[:item_id]
       item_uri = RDF::URI(item_uri)  unless item_uri.kind_of?(RDF::URI)
       tag.hasTarget = item_uri
@@ -83,12 +82,11 @@ puts("*** Entering MODEL: update_all tags")
     end
 
     def self.destroy(tag)
-      puts("*** Entering MODEL: destroy tag")
-
+      # puts("*** Entering MODEL: destroy tag")
     end
 
     def self.find(uri)
-      puts("*** Entering MODEL: find tag")
+      # puts("*** Entering MODEL: find tag")
       LD4L::OpenAnnotationRDF::TagAnnotation.new(uri)
     end
 

@@ -19,7 +19,7 @@ module Ld4lVirtualCollection
     # GET /collections/1/tags/new
     # GET /collections/1/items/1/tags/new
     def new
-      puts("*** Entering CTRL: new tag")
+      # puts("*** Entering CTRL: new tag")
       @tag = Tag.new(@collection,@item)
     end
 
@@ -30,7 +30,7 @@ module Ld4lVirtualCollection
 
     # POST /collections/1/items/1/tags
     def create
-      puts("*** Entering CTRL: create tag")
+      # puts("*** Entering CTRL: create tag")
       @tag = Tag.new(@item, tag_params)
       # TODO: Any error checking that the ones to delete are deleted and the ones to add are added?
       if @tag.persist! == true
@@ -43,7 +43,7 @@ module Ld4lVirtualCollection
 
     # PATCH/PUT /item/1/tags
     def manage_all
-      puts("*** Entering CTRL: manage_all tag")
+      # puts("*** Entering CTRL: manage_all tag")
       @tags = Tag.update_all(@item, tag_params)
       @tags[:delete_list].each { |t| t.destroy! }
       @tags[:add_list].each    { |t| t.persist! }
@@ -58,7 +58,7 @@ module Ld4lVirtualCollection
 
     # PATCH/PUT /tags/1
     def update
-      puts("*** Entering CTRL: update tag")
+      # puts("*** Entering CTRL: update tag")
       @tag = Tag.update(@tag, tag_params)
       if @tag.persist! == true
         redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Tag were successfully updated.'
@@ -70,7 +70,7 @@ module Ld4lVirtualCollection
 
     # DELETE /tags/1
     def destroy
-      puts("*** Entering CTRL: destroy tag")
+      # puts("*** Entering CTRL: destroy tag")
       @tag.destroy
       # if LD4L::OreRDF::DestroyProxy.call(@collection,@item.rdf_subject) == true
       redirect_to my_virtual_collection_path(@collection.id.to_s), notice: 'Tag was successfully removed.'
