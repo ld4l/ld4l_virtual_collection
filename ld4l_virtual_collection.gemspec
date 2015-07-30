@@ -18,22 +18,22 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 4.1.8"
+  s.add_dependency "rails", "~> 4.2.1"
   s.add_dependency 'sass-rails',   '~> 4.0'
 
   s.add_development_dependency "sqlite3"
 
   s.add_dependency('rdf', '~> 1.1')
-  s.add_dependency('active-triples', '~> 0.5')
-  s.add_dependency('active_triples-local_name', '~> 0.1')
+  s.add_dependency('active-triples', '0.6.1')
+  s.add_dependency('active_triples-local_name')
   s.add_dependency('ld4l-ore_rdf', '~> 0.0')
   s.add_dependency('ld4l-open_annotation_rdf', '~> 0.0')
   s.add_dependency('ld4l-foaf_rdf', '~> 0.0')
   s.add_dependency('doubly_linked_list', '~> 0.0')
 
 
-  s.add_dependency "jquery-rails", "~> 2.1"
-  s.add_dependency "bootstrap-sass", "~> 2.3"
+  s.add_dependency "jquery-rails"
+  s.add_dependency "bootstrap-sass"
   # s.add_dependency 'sass-rails', '>= 3.2'
   s.add_dependency 'font-awesome-rails'
 
