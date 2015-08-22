@@ -6,4 +6,4 @@ gemspec
 
 # GETTING FROM GEMFILE UNTIL LD4L::WorksRDF GEM IS RELEASED, THEN MOVE TO *.gemspec FILE
 # Use LDFL::WorksRDF Gem
-gem 'ld4l-works_rdf', :git => 'git@github.com:ld4l/works_rdf.git', :branch => 'master'
+gem 'ld4l-works_rdf', :git => 'git@github.com:ld4l/works_rdf.git', :branch => 'solr_integration'
