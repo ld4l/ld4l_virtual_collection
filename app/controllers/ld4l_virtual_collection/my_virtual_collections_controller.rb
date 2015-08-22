@@ -121,7 +121,9 @@ module Ld4lVirtualCollection
         if @collection
 puts("****** Get metadata for virtual collection #{@collection.title}")
           @collection.proxy_resources.each do |proxy|
-            uri = proxy.proxy_for.first.rdf_subject.to_s  if proxy.proxy_for.first
+            proxy_for = proxy.proxy_for.first
+            uri = proxy_for if proxy_for.is_a? String
+            uri = proxy_for.rdf_subject.to_s unless proxy_for.is_a? String
 puts("   begin processing URI: #{uri}")
             parsable_uri = URI(uri)  if uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.find_metadata_callback(parsable_uri.host) if parsable_uri

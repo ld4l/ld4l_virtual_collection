@@ -16,13 +16,25 @@ def configure_repositories
     # FIXME: Type the following line into rails c with "sqlite3:db/triples.sqlite" in place of the configuration
 
     ActiveTriples::Repositories.add_repository :default, RDF::DataObjects::Repository.new(Rails.configuration.triplestore.default_repository)
+    ActiveTriples::Solrizer.configure do |config|
+      config.solr_uri = "http://localhost:8983/solr/#/~cores/active_triples"
+    end
+    ActiveTriples::Solrizer::SolrService.register
 
     # puts "***  After add_repository ***"
   elsif Rails.env.test?
     ActiveTriples::Repositories.add_repository :default, RDF::Repository.new
+    ActiveTriples::Solrizer.configure do |config|
+      config.solr_uri = "http://localhost:8983/solr/#/~cores/active_triples"
+    end
+    ActiveTriples::Solrizer::SolrService.register
   else
     # TODO Production TripleStore TBD -- Need to update once this is properly configured in config/environments/production.rb
     ActiveTriples::Repositories.add_repository :default, RDF::DataObjects::Repository.new(Rails.configuration.triplestore.default_repository)
+    ActiveTriples::Solrizer.configure do |config|
+      config.solr_uri = "http://localhost:8983/solr/#/~cores/active_triples"
+    end
+    ActiveTriples::Solrizer::SolrService.register
   end
 end
 # Not sure why configure_repositories is called twice in this way.  Code modified from Oregon Digital project.
