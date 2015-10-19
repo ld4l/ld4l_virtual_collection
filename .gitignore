@@ -25,10 +25,4 @@ mkmf.log
 .ruby-gemset
 .ruby-version
 log/*.log
-test/dummy/db
-test/dummy/db/*.sqlite3
-test/dummy/db/*.sqlite3-journal
-test/dummy/log/*.log
-test/dummy/tmp/
-test/dummy/.sass-cache
-test/dummy/vendor
+test/dummy
