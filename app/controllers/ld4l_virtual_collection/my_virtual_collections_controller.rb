@@ -9,7 +9,7 @@ require_dependency "ld4l_virtual_collection/application_controller"
 
 module Ld4lVirtualCollection
   class MyVirtualCollectionsController < ApplicationController
-    before_action :set_collections
+    before_action :set_collections, :set_page_title
     before_action :set_collection, only: [:edit, :update, :destroy, :edit_collection_modal, :new_collection_item_modal]
     before_action :set_collection_and_items, only: [:show]
 
@@ -53,6 +53,19 @@ module Ld4lVirtualCollection
         format.js
       end
     end
+
+
+    # # TODO XXX
+    # # GET /my_virtual_collections/new_collection_items_by_query_modal/1
+    # def new_collection_items_by_query_modal
+    #   # puts("*** Entering CTRL: new virtual collection items by query")
+    #   @item = Item.new(@collection)
+    #   @proxy_for = ""
+    #   respond_to do |format|
+    #     format.html
+    #     format.js
+    #   end
+    # end
 
 
     # # GET /my_virtual_collections/1/edit
@@ -99,6 +112,10 @@ module Ld4lVirtualCollection
 
     private
       # Use callbacks to share common setup or constraints between actions.
+      def set_page_title
+        @heading = "Virtual Collections"
+      end
+
       def set_collections
         @collections = Collection.all
 
@@ -121,7 +138,9 @@ module Ld4lVirtualCollection
         if @collection
 puts("****** Get metadata for virtual collection #{@collection.title}")
           @collection.proxy_resources.each do |proxy|
-            proxy_for = proxy.proxy_for.first
+            next if proxy.nil?
+            proxy_for = proxy.proxy_for.first if proxy.proxy_for.is_a? Array
+            next if proxy_for.nil?
             uri = proxy_for if proxy_for.is_a? String
             uri = proxy_for.rdf_subject.to_s unless proxy_for.is_a? String
 puts("   begin processing URI: #{uri}")

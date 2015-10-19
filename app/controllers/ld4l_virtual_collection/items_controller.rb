@@ -76,7 +76,10 @@ module Ld4lVirtualCollection
       # Use callbacks to share common setup or constraints between actions.
       def set_item
         @item = Item.find(params[:id])
-        @proxy_for = @item && @item.proxy_for && @item.proxy_for.first ? @item.proxy_for.first.rdf_subject : ""
+        @proxy_for = ""
+        @proxy_for = @item.proxy_for if @item && @item.proxy_for
+        @proxy_for = @proxy_for.first if @proxy_for.is_a? Array
+        @proxy_for = @proxy_for.rdf_subject unless @proxy_for.is_a? String
       end
 
       # Only allow a trusted parameter "white list" through.

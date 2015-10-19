@@ -22,7 +22,7 @@ module Ld4lVirtualCollection
     # -----------------------------------------
     # triplestore configuration
     config.triplestore = ActiveSupport::OrderedOptions.new
-    config.triplestore.default_repository = 'sqlite3:db/vc_triplestore.sqlite'
+    config.triplestore.default_repository = 'sqlite3:db/vc_triplestore.sqlite3'
 
     # URI generation configuration
     config.urigenerator = ActiveSupport::OrderedOptions.new

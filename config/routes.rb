@@ -3,6 +3,7 @@ Ld4lVirtualCollection::Engine.routes.draw do
   get "my_virtual_collections/new_collection_modal"  => 'my_virtual_collections#new_collection_modal',  :as => :new_collection_modal
   get "my_virtual_collections/edit_collection_modal/:id" => 'my_virtual_collections#edit_collection_modal', :as => :edit_collection_modal
   get "my_virtual_collections/new_collection_item_modal/:id"  => 'my_virtual_collections#new_collection_item_modal',  :as => :new_collection_item_modal
+  get "my_virtual_collections/new_collection_items_by_query_modal/:id"  => 'my_virtual_collections#new_collection_items_by_query_modal',  :as => :new_collection_items_by_query_modal
   resources :my_virtual_collections
 
   patch "item/:id/tags/" => 'tags#manage_all', :as => :item_tags
