@@ -1,3 +1,4 @@
+require 'ruby-prof'
 require 'ld4l/ore_rdf'
 
 module Ld4lVirtualCollection
@@ -40,11 +41,16 @@ module Ld4lVirtualCollection
 
     # TODO XXX
     def self.add_items_by_query(collection, solr_query)
+RubyProf.start
       # puts("### Entering MODEL: add_items_by_query #{solr_query}")
       metadata = LD4L::WorksRDF::GetMetadataFromSolrQuery.call(solr_query, nil)
       metadata.each do |m|
         LD4L::OreRDF::AddAggregatedResource.call(collection, m.uri)
       end
+result = RubyProf.stop
+File.open("profile/analysis/add_items_by_query.html", "w") do |file|
+  RubyProf::GraphHtmlPrinter.new(result).print(file)
+end
     end
   end
 end

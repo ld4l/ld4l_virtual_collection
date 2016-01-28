@@ -1,3 +1,4 @@
+require 'rails'
 require 'rdf'
 require 'active_triples'
 require 'active_triples/local_name'

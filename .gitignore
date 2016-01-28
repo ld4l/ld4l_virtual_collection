@@ -26,3 +26,4 @@ mkmf.log
 .ruby-version
 log/*.log
 test/dummy
+profile

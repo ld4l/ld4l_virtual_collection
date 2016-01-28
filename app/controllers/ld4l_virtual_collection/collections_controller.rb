@@ -1,3 +1,4 @@
+# require 'ruby-prof'
 require_dependency "ld4l_virtual_collection/application_controller"
 
 
@@ -34,6 +35,8 @@ module Ld4lVirtualCollection
 
     # POST /collections
     def create
+# RubyProf.start
+# binding.pry
       # puts("*** Entering CTRL: create collection")
       @collection = Collection.new(collection_params)
       persisted = false
@@ -51,6 +54,10 @@ module Ld4lVirtualCollection
         flash[:error] = "Collection not created.  #{error_msg}"
         redirect_to my_virtual_collections_path
       end
+# result = RubyProf.stop
+# File.open("profile/analysis/vc_collection_create.html", "w") do |file|
+#   RubyProf::GraphHtmlPrinter.new(result).print(file)
+# end
     end
 
     # PATCH/PUT /collections/1

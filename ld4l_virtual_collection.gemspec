@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'turbolinks'
 
   s.add_development_dependency('pry')
-  # s.add_development_dependency('pry-byebug')    # Works with ruby > 2
+  s.add_development_dependency('pry-byebug')    # Works with ruby > 2
   # s.add_development_dependency('pry-debugger')  # Works with ruby < 2
   s.add_development_dependency('rdoc')
   s.add_development_dependency('rspec')
@@ -52,5 +52,11 @@ Gem::Specification.new do |s|
   s.add_development_dependency('webmock')
   s.add_development_dependency('rubocop')
   s.add_development_dependency('rubocop-rspec')
+  s.add_development_dependency('engine_cart', '~> 0.5')
 
+  s.add_development_dependency('ruby-prof')
+  # s.add_development_dependency('sqlite3')
+  # s.add_development_dependency('rdf-do')
+  # s.add_development_dependency('do_sqlite3')
+  s.add_development_dependency('rdf-blazegraph')
 end
