@@ -9,7 +9,7 @@ module Ld4lVirtualCollection
     end
 
     def self.new(*params)
-      # puts("*** Entering MODEL: new collection")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering MODEL: new collection")
       aggregation = LD4L::OreRDF::CreateAggregation.call
       aggregation.title       = params[0][:title]       if params && params.size > 0 && params[0].has_key?('title')
       aggregation.description = params[0][:description] if params && params.size > 0 && params[0].has_key?('description')
@@ -17,7 +17,7 @@ module Ld4lVirtualCollection
     end
 
     def self.update(*params)
-      # puts("*** Entering MODEL: update collection")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering MODEL: update collection")
       aggregation = LD4L::OreRDF::ResumeAggregation.call(params[0][:id])
       aggregation.title       = params[0][:title]       if params && params.size > 0 && params[0].has_key?('title')
       aggregation.description = params[0][:description] if params && params.size > 0 && params[0].has_key?('description')
@@ -25,16 +25,16 @@ module Ld4lVirtualCollection
     end
 
     def self.destroy
-      # puts("*** Entering MODEL: destroy collection")
-
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering MODEL: destroy collection")
     end
 
     def self.find(uri)
-      # puts("*** Entering MODEL: find collection")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering MODEL: find collection -- uri=#{uri}")
       LD4L::OreRDF::ResumeAggregation.call(uri)
     end
 
     def self.collections_for_droplist
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering MODEL: collections_for_droplist")
       full_collections = Collection.all
       collections = []
       full_collections.each do |id,collection|

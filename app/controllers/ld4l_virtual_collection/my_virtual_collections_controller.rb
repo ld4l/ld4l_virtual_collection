@@ -117,7 +117,17 @@ module Ld4lVirtualCollection
       end
 
       def set_collections
-        @collections = Collection.all
+        @collections = []
+        collections = Collection.all
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering CTRL: set_collections -- @collections=#{@collections}")
+        collections.each do |uri, col|
+          parsed_col = {}
+          parsed_col[:title] = col[:title]
+          parsed_col[:description] = col[:description]
+          parsed_col[:uri] = uri
+          parsed_col[:id] = /https?:\/\/(\w*):?(\d{4})?([\/\w]*)\/(\w{10}-\w{4}-\w{4}-\w{4}-\w{12})/.match(uri).values_at(4)
+          @collections << parsed_col
+        end
 
         # TODO Sorting collections alphabetically...
         # TODO   * @collections is a hash, so it can't be sorted
@@ -132,18 +142,19 @@ module Ld4lVirtualCollection
       end
 
       def set_collection_and_items
-        @select_id  = params[:id]
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering CTRL: set_collection_and_items")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("params=#{params}")        @select_id  = params[:id]
         @collection = Collection.find(@select_id)
         @items = []
         if @collection
-puts("****** Get metadata for virtual collection #{@collection.title}")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("****** Get metadata for virtual collection #{@collection.title}")
           @collection.proxy_resources.each do |proxy|
             next if proxy.nil?
             proxy_for = proxy.proxy_for.first if proxy.proxy_for.is_a? Array
             next if proxy_for.nil?
             uri = proxy_for if proxy_for.is_a? String
             uri = proxy_for.rdf_subject.to_s unless proxy_for.is_a? String
-puts("   begin processing URI: #{uri}")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("   begin processing URI: #{uri}")
             parsable_uri = URI(uri)  if uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.find_metadata_callback(parsable_uri.host) if parsable_uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.get_default_metadata_callback  unless metadata_callback
@@ -158,7 +169,7 @@ puts("   begin processing URI: #{uri}")
 
             @items << { :proxy => proxy, :metadata => items_metadata.first, :proxy_for => uri, :note => note, :tag => tag, :tags => tag_values }  if items_metadata && items_metadata.size > 0
 
-puts("   processing complete - #{@items.size} items retrieved")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("   processing complete - #{@items.size} items retrieved")
 ### TODO Look for all usage of proxy_for and make sure correct.  Cause it isn't correct here.
 
             # @proxy_for = uri  ### TODO This isn't correct as the proxy gets reset with every loop.  How is it being used?  Should get proxy from @items.

@@ -1,9 +1,15 @@
 module Ld4lVirtualCollection
   class Configuration
 
+    attr_reader :debug_logger
     attr_reader :base_uri
     attr_reader :localname_minter
     attr_reader :metadata_callback
+
+    def self.default_debug_logger
+      @default_debug_logger = Logger.new('log/debug.log')
+    end
+    private_class_method :default_debug_logger
 
     def self.default_base_uri
       @default_base_uri = "http://localhost/".freeze
@@ -23,9 +29,18 @@ module Ld4lVirtualCollection
     private_class_method :default_metadata_callback
 
     def initialize
+      @debug_logger      = self.class.send(:default_debug_logger)
       @base_uri          = self.class.send(:default_base_uri)
       @localname_minter  = self.class.send(:default_localname_minter)
       @metadata_callback = self.class.send(:default_metadata_callback)
+    end
+
+    def debug_logger=(new_debug_logger)
+      @debug_logger = new_debug_logger
+    end
+
+    def reset_debug_logger
+      @debug_logger = self.class.send(:default_debug_logger)
     end
 
     def base_uri=(new_base_uri)
