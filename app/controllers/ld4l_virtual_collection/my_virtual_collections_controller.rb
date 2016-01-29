@@ -143,7 +143,8 @@ Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering CTRL
 
       def set_collection_and_items
 Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering CTRL: set_collection_and_items")
-Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("params=#{params}")        @select_id  = params[:id]
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("params=#{params}")
+        @select_id  = params[:id]
         @collection = Collection.find(@select_id)
         @items = []
         if @collection
