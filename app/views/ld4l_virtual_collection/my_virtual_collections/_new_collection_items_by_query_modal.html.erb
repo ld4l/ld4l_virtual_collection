@@ -1,0 +1,20 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="new-collection-items-by-query-label">New Item</h3>
+    </div>
+    <div class="modal-body">
+      <%=
+          render :partial => 'form_collection_items_query',
+                 :locals => {
+                         :form_controller => 'item',
+                         :form_action => 'create',
+                         :form_class  => 'new_items_by_query',
+                         :form_id     => 'new_items_by_query',
+                         :form_method => 'post',
+                         :modal_id    => 'new-collection-items_by_query-modal' }
+      %>
+    </div>
+  </div>
+</div>

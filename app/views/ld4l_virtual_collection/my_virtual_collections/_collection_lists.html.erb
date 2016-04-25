@@ -1,4 +1,4 @@
-  <div class="span3">
+  <div class="col-sm-3">
     <div id="collections">
       <div class="my_collections">
         <h4 class="twiddle" style="width: 250px;">My Virtual Collections
@@ -9,7 +9,6 @@
         <div id="cl_loading_spinner" class="loading">
           <div class="loading-overlay">
             <p class="loading-spinner">
-              <%= image_tag "ld4l_virtual_collection/loading_spinner.gif", class: "loading-spinner-img", alt: "loading..." %>
             </p>
           </div>
         </div>
@@ -20,19 +19,19 @@
         <%- else %>
             <div class="side-menu">
               <ul class="collections-list">
-                <%- @collections.each do |id,collection| %>
-                <li<%- if @select_id == id.to_s %> class="selected-collection"
+                <%- @collections.each do |col| %>
+                    <li<%- if @select_id == col[:id] %> class="selected-collection"
                   <%- end %>>
                   <div class="title">
-                    <%= link_to collection[:title].to_s, my_virtual_collection_path(id.to_s),
-                              :title => collection[:description], :class => "title",
+                    <%= link_to col[:title], my_virtual_collection_path(col[:id]),
+                              :title => col[:description], :class => "title",
                               :onclick => "document.getElementById('cl_loading_spinner').style.visibility = 'visible';"
                     %>
                   </div>
                   <div class="icons">
-                    <%= link_to content_tag(:i, '', :class => "fa fa-edit"), edit_collection_modal_path(id.to_s),
+                    <%= link_to content_tag(:i, '', :class => "fa fa-edit"), edit_collection_modal_path(col[:id]),
                               {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#edit-collection-modal' }  %>
-                    <%= link_to content_tag(:i, '', :class => "fa fa-minus-circle"), collection_path(id.to_s),
+                    <%= link_to content_tag(:i, '', :class => "fa fa-minus-circle"), collection_path(col[:id]),
                               method: :delete, data: { confirm: 'Are you sure?' } %>
                   </div>
                 </li>

@@ -12,8 +12,12 @@ module Ld4lVirtualCollection
     def self.new(collection, *params)
       # puts("*** Entering MODEL: new item")
       item_uri = params[0][:proxy_for].strip    if params && params.size > 0 && params[0].has_key?('proxy_for')
-      item_uri ? LD4L::OreRDF::AddAggregatedResource.call( collection, item_uri ) :
+      if(item_uri && item_uri.start_with?("http://da-stg-ssolr.library.cornell.edu/solr/") )
+        add_items_by_query(collection, item_uri)
+      else
+        (item_uri && item_uri.size > 0) ? LD4L::OreRDF::AddAggregatedResource.call( collection, item_uri ) :
                  LD4L::OreRDF::ProxyResource.new
+    end
     end
 
     def self.update(collection, item, *params)
@@ -33,5 +37,14 @@ module Ld4lVirtualCollection
       LD4L::OreRDF::ProxyResource.new(uri)
     end
 
+
+    # TODO XXX
+    def self.add_items_by_query(collection, solr_query)
+      # puts("### Entering MODEL: add_items_by_query #{solr_query}")
+      metadata = LD4L::WorksRDF::GetMetadataFromSolrQuery.call(solr_query, nil)
+      metadata.each do |m|
+        LD4L::OreRDF::AddAggregatedResource.call(collection, m.uri)
+      end
+    end
   end
 end
