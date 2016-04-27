@@ -23,9 +23,11 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "sqlite3"
 
-  s.add_dependency('rdf')
+  s.add_dependency('rdf', '~> 1.99')
   s.add_dependency('active-triples')
   s.add_dependency('active_triples-local_name')
+
+  s.add_dependency('ld4l-works_rdf')
   s.add_dependency('ld4l-ore_rdf')
   s.add_dependency('ld4l-open_annotation_rdf')
   s.add_dependency('ld4l-foaf_rdf')
