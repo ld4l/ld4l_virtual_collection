@@ -9,7 +9,7 @@ require_dependency "ld4l_virtual_collection/application_controller"
 
 module Ld4lVirtualCollection
   class MyVirtualCollectionsController < ApplicationController
-    before_action :set_collections
+    before_action :set_collections, :set_page_title
     before_action :set_collection, only: [:edit, :update, :destroy, :edit_collection_modal, :new_collection_item_modal]
     before_action :set_collection_and_items, only: [:show]
 
@@ -53,6 +53,19 @@ module Ld4lVirtualCollection
         format.js
       end
     end
+
+
+    # # TODO XXX
+    # # GET /my_virtual_collections/new_collection_items_by_query_modal/1
+    # def new_collection_items_by_query_modal
+    #   # puts("*** Entering CTRL: new virtual collection items by query")
+    #   @item = Item.new(@collection)
+    #   @proxy_for = ""
+    #   respond_to do |format|
+    #     format.html
+    #     format.js
+    #   end
+    # end
 
 
     # # GET /my_virtual_collections/1/edit
@@ -99,8 +112,22 @@ module Ld4lVirtualCollection
 
     private
       # Use callbacks to share common setup or constraints between actions.
+      def set_page_title
+        @heading = "Virtual Collections"
+      end
+
       def set_collections
-        @collections = Collection.all
+        @collections = []
+        collections = Collection.all
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering CTRL: set_collections -- @collections=#{@collections}")
+        collections.each do |uri, col|
+          parsed_col = {}
+          parsed_col[:title] = col[:title]
+          parsed_col[:description] = col[:description]
+          parsed_col[:uri] = uri
+          parsed_col[:id] = /https?:\/\/(\w*):?(\d{4})?([\/\w]*)\/(\w{10}-\w{4}-\w{4}-\w{4}-\w{12})/.match(uri).values_at(4)
+          @collections << parsed_col
+        end
 
         # TODO Sorting collections alphabetically...
         # TODO   * @collections is a hash, so it can't be sorted
@@ -115,14 +142,18 @@ module Ld4lVirtualCollection
       end
 
       def set_collection_and_items
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("*** Entering CTRL: set_collection_and_items")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("params=#{params}")
         @select_id  = params[:id]
         @collection = Collection.find(@select_id)
         @items = []
         if @collection
-puts("****** Get metadata for virtual collection #{@collection.title}")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("****** Get metadata for virtual collection #{@collection.title}")
           @collection.proxy_resources.each do |proxy|
-            uri = proxy.proxy_for.first.rdf_subject.to_s  if proxy.proxy_for.first
-puts("   begin processing URI: #{uri}")
+            next if proxy.nil?
+            uri = proxy.proxy_for_subject
+            next if uri.nil?
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("   begin processing URI: #{uri}")
             parsable_uri = URI(uri)  if uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.find_metadata_callback(parsable_uri.host) if parsable_uri
             metadata_callback = Ld4lVirtualCollection::Engine.configuration.get_default_metadata_callback  unless metadata_callback
@@ -137,7 +168,7 @@ puts("   begin processing URI: #{uri}")
 
             @items << { :proxy => proxy, :metadata => items_metadata.first, :proxy_for => uri, :note => note, :tag => tag, :tags => tag_values }  if items_metadata && items_metadata.size > 0
 
-puts("   processing complete - #{@items.size} items retrieved")
+Ld4lVirtualCollection::Engine.configuration.debug_logger.warn("   processing complete - #{@items.size} items retrieved")
 ### TODO Look for all usage of proxy_for and make sure correct.  Cause it isn't correct here.
 
             # @proxy_for = uri  ### TODO This isn't correct as the proxy gets reset with every loop.  How is it being used?  Should get proxy from @items.
